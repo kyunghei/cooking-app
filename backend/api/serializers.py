@@ -1,4 +1,4 @@
-from rest_framework import serializers
+from rest_framework import serializers  # type: ignore
 from .models import User, Cuisine, Ingredient, Recipe
 
 # Serializer for the User model

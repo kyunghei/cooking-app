@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets  # type: ignore
 from .models import User, Cuisine, Ingredient, Recipe
 from .serializers import (
     UserSerializer, CuisineSerializer, IngredientSerializer, RecipeSerializer
