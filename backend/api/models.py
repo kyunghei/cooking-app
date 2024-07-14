@@ -19,6 +19,9 @@ class Ingredient(models.Model):
     name = models.CharField(max_length=100)  # Name of ingredient
     description = models.TextField(blank=True, null=True)
 
+    def __str__(self):
+        return self.name
+
 # Recipe model to store recipe details
 
 
