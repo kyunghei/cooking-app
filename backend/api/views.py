@@ -3,6 +3,7 @@ from .models import User, Cuisine, Ingredient, Recipe
 from .serializers import (
     UserSerializer, CuisineSerializer, IngredientSerializer, RecipeSerializer
 )
+from .permissions import IsOwnerOrReadOnly
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -23,3 +24,4 @@ class IngredientViewSet(viewsets.ModelViewSet):
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
+    permission_class = [IsOwnerOrReadOnly]
