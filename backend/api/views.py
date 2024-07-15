@@ -1,30 +1,38 @@
-from rest_framework import viewsets, filters, permissions  # type: ignore
+from rest_framework import generics, filters, permissions  # type: ignore
 from .models import User, Cuisine, Ingredient, Recipe
 from .serializers import (
     UserSerializer, CuisineSerializer, IngredientSerializer, RecipeSerializer
 )
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsAdminOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend  # type: ignore
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class RegisterAPI(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    search_fields = ['username']
+    permission_class = [permissions.AllowAny]
 
 
-class CuisineViewSet(viewsets.ModelViewSet):
+# class UserViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+#     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+#     search_fields = ['username']
+
+
+class CuisineListCreateView(generics.ListCreateAPIView):
     queryset = Cuisine.objects.all()
     serializer_class = CuisineSerializer
+    permission_class = [IsAdminOrReadOnly]
 
 
-class IngredientViewSet(viewsets.ModelViewSet):
+class IngredientListCreateView(generics.ListCreateAPIView):
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
+    permission_class = [IsAdminOrReadOnly]
 
 
-class RecipeViewSet(viewsets.ModelViewSet):
+class RecipeListCreateView(generics.ListCreateAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     # permission_class = [IsOwnerOrReadOnly]
@@ -34,3 +42,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
     filterset_fields = ['author', 'cuisines']
     search_fields = ['title', 'cuisine', 'ingredients']
     ordering_fields = ['created_at', 'updated_at']
+
+
+class RecipeDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeSerializer
+    permission_class = [IsOwnerOrReadOnly]
