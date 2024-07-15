@@ -1,4 +1,4 @@
-from rest_framework import viewsets, filters  # type: ignore
+from rest_framework import viewsets, filters, permissions  # type: ignore
 from .models import User, Cuisine, Ingredient, Recipe
 from .serializers import (
     UserSerializer, CuisineSerializer, IngredientSerializer, RecipeSerializer
@@ -27,7 +27,8 @@ class IngredientViewSet(viewsets.ModelViewSet):
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
-    permission_class = [IsOwnerOrReadOnly]
+    # permission_class = [IsOwnerOrReadOnly]
+    permission_class = [permissions.AllowAny]
     filter_backends = [DjangoFilterBackend,
                        filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['author', 'cuisines']
