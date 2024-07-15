@@ -1,7 +1,11 @@
 from rest_framework import generics, filters, permissions  # type: ignore
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User, Cuisine, Ingredient, Recipe
 from .serializers import (
-    UserSerializer, CuisineSerializer, IngredientSerializer, RecipeSerializer
+    LoginSerializer, RegisterSerializer, CuisineSerializer,
+    IngredientSerializer, RecipeSerializer
 )
 from .permissions import IsOwnerOrReadOnly, IsAdminOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend  # type: ignore
@@ -9,9 +13,23 @@ from django_filters.rest_framework import DjangoFilterBackend  # type: ignore
 
 class RegisterAPI(generics.CreateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = RegisterSerializer
     permission_class = [permissions.AllowAny]
 
+
+class LoginAPI(APIView):
+    permission_class = [permissions.AllowAny]
+    # Handles POST requests to the login endpoint
+
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        })
 
 # class UserViewSet(viewsets.ModelViewSet):
 #     queryset = User.objects.all()

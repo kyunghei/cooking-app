@@ -1,7 +1,6 @@
 from rest_framework import serializers  # type: ignore
 from .models import User, Cuisine, Ingredient, Recipe
-
-# Serializer for the User model
+from django.contrib.auth import authenticate
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -9,23 +8,17 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email']
 
-# Serializer for the Cuisine model
-
 
 class CuisineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cuisine
         fields = '__all__'
 
-# Serializer for the Ingredient model
-
 
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
         fields = '__all__'
-
-# Serializer for the Recipe model
 
 
 class RecipeSerializer(serializers.ModelSerializer):
@@ -36,3 +29,31 @@ class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = '__all__'
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, data):
+        user = authenticate(**data)
+        if user and user.is_active:
+            return user
+        raise serializers.ValidationError("Invalid Credentials")
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'password')
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
+        return user
