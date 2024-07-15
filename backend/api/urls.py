@@ -1,12 +1,13 @@
 from django.urls import path  # type: ignore
 from .views import (
     RegisterAPI, CuisineListCreateView, IngredientListCreateView,
-    RecipeListCreateView, RecipeDetailView
+    RecipeListCreateView, RecipeDetailView, LoginAPI
 )
 
 # The API URLs are now determined automatically by the router
 urlpatterns = [
     path("auth/register/", RegisterAPI.as_view(), name='register'),
+    path("auth/login/", LoginAPI.as_view(), name='login'),
     path('cuisines/', CuisineListCreateView.as_view(),
          name='cuisine-list-create'),
     path('ingredients/', IngredientListCreateView.as_view(),
