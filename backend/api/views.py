@@ -31,11 +31,13 @@ class LoginAPI(APIView):
             'access': str(refresh.access_token),
         })
 
-# class UserViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-#     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-#     search_fields = ['username']
+
+class MyRecipesAPI(generics.ListAPIView):
+    serializer_class = RecipeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Recipe.objects.filter(author=self.request.user)
 
 
 class CuisineListCreateView(generics.ListCreateAPIView):
