@@ -2,10 +2,10 @@ from rest_framework import generics, filters, permissions  # type: ignore
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import User, Cuisine, Ingredient, Recipe
+from .models import User, Cuisine, Recipe
 from .serializers import (
     LoginSerializer, RegisterSerializer, CuisineSerializer,
-    IngredientSerializer, RecipeSerializer
+    RecipeSerializer
 )
 from .permissions import IsOwnerOrReadOnly, IsAdminOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend  # type: ignore
@@ -46,22 +46,18 @@ class CuisineListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAdminOrReadOnly]
 
 
-class IngredientListCreateView(generics.ListCreateAPIView):
-    queryset = Ingredient.objects.all()
-    serializer_class = IngredientSerializer
-    permission_classes = [IsAdminOrReadOnly]
-
-
 class RecipeListCreateView(generics.ListCreateAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
-    # permission_class = [IsOwnerOrReadOnly]
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend,
                        filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['author', 'cuisines']
-    search_fields = ['title', 'cuisine', 'ingredients']
+    search_fields = ['title', 'cuisine']
     ordering_fields = ['created_at', 'updated_at']
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 
 class RecipeDetailView(generics.RetrieveUpdateDestroyAPIView):

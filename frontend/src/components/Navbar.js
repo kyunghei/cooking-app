@@ -24,6 +24,14 @@ function Navbar() {
         navigate('/login');
     };
 
+    function handleAddRecipe() {
+        if (isAuthenticated) {
+            navigate('/add-recipe');
+        } else {
+            navigate('/login');
+        }
+    };
+
 
     return (
         <nav>
@@ -44,6 +52,7 @@ function Navbar() {
                     <Link to='/login'>Login</Link>
                 </>
             )}
+            <button onClick={handleAddRecipe}>Add Recipe</button>
         </nav>
     )
 }

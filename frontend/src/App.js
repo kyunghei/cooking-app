@@ -6,6 +6,7 @@ import Login from './components/Login'
 import Home from './components/Home'
 import Navbar from './components/Navbar'
 import MyRecipes from './components/MyRecipes';
+import AddRecipe from './components/AddRecipe';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/recipes/:id" element={<RecipeDetail />} />
           <Route path='/my-recipes' element={<MyRecipes />} />
+          <Route path='/add-recipe' element={<AddRecipe />} />
         </Routes>
 
       </div>

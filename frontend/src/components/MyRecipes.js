@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { getMyRecipes } from '../services/api';
 
 function MyRecipes() {
     const [recipes, setRecipes] = useState([]);
@@ -8,12 +9,8 @@ function MyRecipes() {
         async function fetchMyRecipes() {
             const token = localStorage.getItem('access');
             try {
-                const response = await axios.get('http://127.0.0.1:8000/my-recipes/', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                setRecipes(response.data);
+                const data = await getMyRecipes(token)
+                setRecipes(data);
             } catch (error) {
                 console.error('Error fetching user recipes:', error);
             }

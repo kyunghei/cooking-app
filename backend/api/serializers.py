@@ -1,5 +1,5 @@
 from rest_framework import serializers  # type: ignore
-from .models import User, Cuisine, Ingredient, Recipe
+from .models import User, Cuisine, Recipe
 from django.contrib.auth import authenticate
 
 
@@ -15,15 +15,8 @@ class CuisineSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class IngredientSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Ingredient
-        fields = '__all__'
-
-
 class RecipeSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
-    ingredients = IngredientSerializer(many=True, read_only=True)
     cuisines = CuisineSerializer(many=True, read_only=True)
 
     class Meta:
