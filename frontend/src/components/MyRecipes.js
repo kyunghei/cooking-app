@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { getMyRecipes } from '../services/api';
+import { Link } from 'react-router-dom';
+
 
 function MyRecipes() {
     const [recipes, setRecipes] = useState([]);
@@ -23,7 +25,7 @@ function MyRecipes() {
             <h2>My Recipes</h2>
             <ul>
                 {recipes.map((recipe) => (
-                    <li key={recipe.id}>{recipe.title}</li>
+                    <li key={recipe.id}><Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link></li>
                 ))}
             </ul>
         </div>

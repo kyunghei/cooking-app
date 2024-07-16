@@ -3,6 +3,10 @@ from .views import (
     RegisterAPI, CuisineListCreateView,
     RecipeListCreateView, RecipeDetailView, LoginAPI, MyRecipesAPI
 )
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 # The API URLs are now determined automatically by the router
 urlpatterns = [
@@ -13,4 +17,6 @@ urlpatterns = [
     path('recipes/', RecipeListCreateView.as_view(), name='recipe-list-create'),
     path('recipes/<int:pk>/', RecipeDetailView.as_view(), name='recipe-detail'),
     path('my-recipes/', MyRecipesAPI.as_view(), name='my-recipes'),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

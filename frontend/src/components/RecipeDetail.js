@@ -27,8 +27,12 @@ function RecipeDetail() {
         <div>
             <h1>{recipe.title}</h1>
             <h2>by: {recipe.author.username}</h2>
+            <p>Serving size: {recipe.serving_size}</p>
             <p>Preparation time: {recipe.prep_time} minutes</p>
+            <p>Cooking time: {recipe.cook_time} minutes</p>
+            <p>Ingredients: {recipe.ingredients}</p>
             <p>{recipe.instruction}</p>
+            <p>Cuisine: {recipe.cuisine}</p>
         </div>
     )
 }
