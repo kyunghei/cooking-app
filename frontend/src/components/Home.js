@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getRecipes } from '../services/api';
+import '../App.css'
 
 function Home() {
     const [recipes, setRecipes] = useState([]);
@@ -15,7 +16,7 @@ function Home() {
 
     return (
         <div>
-            <h1>Eggcellent Recipes</h1>
+            <h2>All <span>eggcellent</span> Recipes</h2>
             <div>
                 <ul>
                     {recipes.map((recipe) => (

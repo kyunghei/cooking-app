@@ -1,38 +1,42 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.nav-custom {
+  background-color: white;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
 
-.App-link {
-  color: #61dafb;
-}
+  .container-fluid {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-right: 50px;
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+    .navbar-nav {
+      align-items: center;
+    }
+
+    #navbarNav {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 0;
+      /* Prevents the collapse from growing to fill available space */
+      flex-basis: auto;
+      /* Makes the collapse take the size of its content */
+
+      h1 {
+        font-family: "Caveat";
+        font-size: 70px;
+      }
+    }
+
+    .nav-item {
+      margin: 30px 10px;
+
+      button,
+      a {
+        font-size: 17px;
+        padding: 5px 15px;
+      }
+    }
   }
 }
