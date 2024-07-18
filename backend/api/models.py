@@ -23,6 +23,8 @@ class Recipe(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     serving_size = models.IntegerField()
+    image = models.ImageField(
+        upload_to='recipe_images/', blank=True, null=True, default='logo.jpg')
 
     def __str__(self):
         return self.title

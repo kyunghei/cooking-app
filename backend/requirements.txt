@@ -5,3 +5,4 @@ djangorestframework.authtoken==1.12.1
 django-filter==24.2
 django-cors-headers==4.4.0
 djangorestframework-simplejwt
+Pillow==10.4.0

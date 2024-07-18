@@ -7,6 +7,8 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from django.conf import settings
+from django.conf.urls.static import static
 
 # The API URLs are now determined automatically by the router
 urlpatterns = [
@@ -19,4 +21,4 @@ urlpatterns = [
     path('my-recipes/', MyRecipesAPI.as_view(), name='my-recipes'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
