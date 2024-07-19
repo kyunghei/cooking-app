@@ -9,6 +9,11 @@ from .serializers import (
 )
 from .permissions import IsOwnerOrReadOnly, IsAdminOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend  # type: ignore
+from django.shortcuts import render
+
+
+def index(request):
+    return render(request, 'index.html')
 
 
 class RegisterAPI(generics.CreateAPIView):
