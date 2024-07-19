@@ -18,18 +18,18 @@ function Home() {
     const defaultImage = `${process.env.PUBLIC_URL}/logo.jpg`;
 
     return (
-        <div class="recipe-body">
-            <h2>All Our Recipes</h2>
+        <div className="recipe-body">
+            <h2>all recipes</h2>
 
-            <div class="recipe-container">
+            <div className="recipe-container">
                 {recipes.map((recipe) => (
-                    <div class="card card-custom" key={recipe.id}>
-                        <div class="card-body">
-                            <img src={recipe.image || defaultImage} class="card-img-top" alt={recipe.title}></img>
-                            <div class="card-body">
-                                <h5 class="card-title">{recipe.title}</h5>
-                                <p class="card-text">{recipe.cusine}</p>
-                                <Link to={`/recipes/${recipe.id}`} class="btn btn-primary">View Recipe</Link>
+                    <div className="card card-custom" key={recipe.id}>
+                        <div className="card-body">
+                            <img src={recipe.image || defaultImage} className="card-img-top" alt={recipe.title}></img>
+                            <div className="card-body">
+                                <h5 className="card-title">{recipe.title}</h5>
+                                <p className="card-text">{recipe.cusine}</p>
+                                <Link to={`/recipes/${recipe.id}`} className="btn btn-sm btn-outline-secondary">View Recipe</Link>
                             </div>
                         </div>
                     </div>

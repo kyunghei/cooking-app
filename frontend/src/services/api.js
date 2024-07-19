@@ -51,3 +51,18 @@ export const getMyRecipes = async (token) => {
     });
     return response.data;
 }
+
+export const deleteRecipe = async (id) => {
+    const response = await apiClient.delete(`/recipes/${id}/`);
+    return response.data;
+};
+
+export const updateRecipe = async (id, data) => {
+    const response = await apiClient.put(`/recipes/${id}/`, data, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${localStorage.getItem('access')}`,
+        }
+    });
+    return response.data;
+};

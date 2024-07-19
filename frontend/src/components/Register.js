@@ -49,8 +49,8 @@ function Register() {
     };
 
     return (
-        <div>
-            <h1>Register Now!</h1>
+        <div className='register-container'>
+            <h2>hi chef, thank you for joining!</h2>
             {message && <p style={{ color: 'green' }}>{message}</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={onSubmit}>

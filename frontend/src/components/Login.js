@@ -35,8 +35,8 @@ function Login() {
     }
 
     return (
-        <div>
-            <h2>Login!</h2>
+        <div className="login-container">
+            <h2>welcome back chef!</h2>
             {message && <p style={{ color: 'green' }}>{message}</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={onSubmit}>
@@ -56,7 +56,7 @@ function Login() {
                     placeholder="Password"
                     required
                 />
-                <button type="submit">Login</button>
+                <button type="submit" >Login</button>
             </form>
             <div>
                 New? <Link to='/register'>Register Here</Link>

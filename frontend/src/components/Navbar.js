@@ -23,40 +23,40 @@ function Navbar() {
 
 
     return (
-        <nav class="navbar navbar-expand-lg  nav-custom">
-            <div class="container-fluid" >
-                <a class="navbar-brand" href="/">
-                    <img src={`${process.env.PUBLIC_URL}/logo.jpg`} alt="Logo" width="150px" class="d-inline-block align-text-top"></img>
+        <nav className="navbar navbar-expand-lg  nav-custom">
+            <div className="container-fluid" >
+                <a className="navbar-brand" href="/">
+                    <img src={`${process.env.PUBLIC_URL}/logo.jpg`} alt="Logo" width="150px" className="d-inline-block align-text-top"></img>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
+                <div className="collapse navbar-collapse" id="navbarNav">
                     <div><h1>egg-cellent</h1></div>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="btn btn-sm btn-outline-secondary" type="button" href='/'>Home</a>
+                    <ul className="navbar-nav">
+                        <li className="nav-item">
+                            <a className="btn btn-sm btn-outline-secondary" type="button" href='/'>Home</a>
                         </li>
-                        <li class="nav-item">
-                            <button class="btn btn-sm btn-outline-secondary" type="button" onClick={handleAddRecipe}>Add Recipe</button>
+                        <li className="nav-item">
+                            <button className="btn btn-sm btn-outline-secondary" type="button" onClick={handleAddRecipe}>Add Recipe</button>
                         </li>
                         {isAuthenticated ? (
-                            <li class="nav-item dropdown">
-                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <li className="nav-item dropdown">
+                                <button className="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Account
                                 </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/my-recipes">My Recipes</a></li>
-                                    <li><button class="dropdown-item" onClick={handleLogout}>Logout</button></li>
+                                <ul className="dropdown-menu">
+                                    <li><a className="dropdown-item" href="/my-recipes">My Recipes</a></li>
+                                    <li><button className="dropdown-item" onClick={handleLogout}>Logout</button></li>
                                 </ul>
                             </li>
                         ) : (
                             <>
-                                <li class="nav-item">
-                                    <button class="btn btn-sm btn-outline-secondary">Login</button>
+                                <li className="nav-item">
+                                    <button onClick={() => navigate('/login')} className="btn btn-sm btn-outline-secondary">Login</button>
                                 </li>
-                                <li class="nav-item">
-                                    <button class="btn btn-sm btn-outline-secondary">Register</button>
+                                <li className="nav-item">
+                                    <button onClick={() => navigate('/register')} className="btn btn-sm btn-outline-secondary">Register</button>
                                 </li>
                             </>
 

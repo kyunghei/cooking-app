@@ -60,7 +60,21 @@ class RecipeListCreateView(generics.ListCreateAPIView):
         serializer.save(author=self.request.user)
 
 
+class RecipeUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+
+
 class RecipeDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     permission_classes = [IsOwnerOrReadOnly]
+
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        # Keep the old image if a new one is not provided
+        if 'image' not in self.request.data:
+            serializer.save(image=instance.image)
+        else:
+            serializer.save()

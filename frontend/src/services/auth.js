@@ -19,14 +19,20 @@ async function login(username, password) {
 
 async function refreshToken() {
     const refresh = localStorage.getItem('refresh');
+    if (!refresh) {
+        throw new Error('No refresh token available');
+    }
     try {
         const response = await axios.post(`${API_URL}/token/refresh/`, {
             refresh
         });
         localStorage.setItem('access', response.data.access);
+        if (response.data.refresh) {
+            localStorage.setItem('refresh', response.data.refresh);
+        }
         return response.data;
     } catch (error) {
-        console.error('Token refresh error:', error);
+        console.error('Token refresh error:', error.response ? error.response.data : error);
         throw error;
     }
 };

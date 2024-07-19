@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { getMyRecipes } from '../services/api';
+import { getMyRecipes, deleteRecipe } from '../services/api';
 import { Link } from 'react-router-dom';
 
 
@@ -20,14 +20,36 @@ function MyRecipes() {
         fetchMyRecipes();
     }, []);
 
+    async function handleDelete(id) {
+        try {
+            await deleteRecipe(id);
+            setRecipes(recipes.filter(recipe => recipe.id !== id));
+        } catch (error) {
+            console.error('Error deleting recipe:', error);
+
+        }
+    }
+    const defaultImage = `${process.env.PUBLIC_URL}/logo.jpg`;
+
     return (
-        <div>
-            <h2>My Recipes</h2>
-            <ul>
+        <div className='myrecipe-container'>
+            <h2>your delicious recipe contributions</h2>
+            <div className="myrecipe-container">
                 {recipes.map((recipe) => (
-                    <li key={recipe.id}><Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link></li>
+                    <div className="card card-custom" key={recipe.id}>
+                        <div className="card-body">
+                            <img src={recipe.image || defaultImage} className="card-img-top" alt={recipe.title}></img>
+                            <div className="card-body">
+                                <h5 className="card-title">{recipe.title}</h5>
+                                <p className="card-text">{recipe.cusine}</p>
+                                <Link to={`/recipes/${recipe.id}`} className="btn btn-sm btn-outline-secondary">View Recipe</Link>
+                                <Link to={`/edit-recipe/${recipe.id}`} className="btn btn-sm btn-outline-secondary">Edit</Link>
+                                <button onClick={() => handleDelete(recipe.id)} className="btn btn-sm btn-outline-secondary">Delete</button>
+                            </div>
+                        </div>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

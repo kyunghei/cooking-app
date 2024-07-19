@@ -1,11 +1,13 @@
 from django.urls import path  # type: ignore
 from .views import (
     RegisterAPI, CuisineListCreateView,
-    RecipeListCreateView, RecipeDetailView, LoginAPI, MyRecipesAPI
+    RecipeListCreateView, RecipeDetailView, LoginAPI, MyRecipesAPI,
+    RecipeUpdateDeleteView
 )
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
+    TokenBlacklistView
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -21,4 +23,7 @@ urlpatterns = [
     path('my-recipes/', MyRecipesAPI.as_view(), name='my-recipes'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
+    path('recipes/<int:pk>/', RecipeUpdateDeleteView.as_view(), name='recipe-detail'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

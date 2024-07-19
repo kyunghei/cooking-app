@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { getAuthHeader, refreshToken } from '../services/auth';
+import React, { useState, useEffect } from 'react';
+import { getRecipe, updateRecipe } from '../services/api';
+import { useParams, useNavigate } from 'react-router-dom';
 
-
-function AddRecipe() {
+function EditRecipe() {
+    const { id } = useParams();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         title: '',
         ingredients: '',
@@ -11,89 +12,77 @@ function AddRecipe() {
         prep_time: '',
         cook_time: '',
         serving_size: '',
-        cuisines: [],
-        image: null
+        image: null,
+        imageUrl: ''
     });
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
 
-    const { title, ingredients, instruction, prep_time, cook_time, serving_size, cuisines, image } = formData;
+    useEffect(() => {
+        async function fetchRecipe() {
+            const data = await getRecipe(id);
+            setFormData({
+                title: data.title,
+                ingredients: data.ingredients,
+                instruction: data.instruction,
+                prep_time: data.prep_time,
+                cook_time: data.cook_time,
+                serving_size: data.serving_size,
+                image: null,
+                imageUrl: data.image
+            });
+        }
+        fetchRecipe();
+    }, [id]);
 
     function onChange(e) {
-        setFormData({ ...formData, [e.target.name]: e.target.value })
-    };
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
 
     function onImageChange(e) {
-        setFormData({ ...formData, image: e.target.files[0] })
+        setFormData({ ...formData, image: e.target.files[0] });
     }
 
     async function onSubmit(e) {
         e.preventDefault();
-        const token = localStorage.getItem('access');
-
-        const data = new FormData();
-        data.append('title', title);
-        data.append('ingredients', ingredients);
-        data.append('instruction', instruction);
-        data.append('prep_time', prep_time);
-        data.append('cook_time', cook_time);
-        data.append('serving_size', serving_size);
-        data.append('cuisines', cuisines);
-        if (image) {
-            data.append('image', image);
+        const form = new FormData();
+        form.append('title', formData.title);
+        form.append('ingredients', formData.ingredients);
+        form.append('instruction', formData.instruction);
+        form.append('prep_time', formData.prep_time);
+        form.append('cook_time', formData.cook_time);
+        form.append('serving_size', formData.serving_size);
+        if (formData.image) {
+            form.append('image', formData.image);
         }
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/recipes/', data, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setMessage('Recipe added successfully!');
-            setError('');
-        } catch (err) {
-            if (err.response.status === 401) {
-                try {
-                    await refreshToken();
-                    let headers = getAuthHeader();
-                    let response = await axios.post('http://127.0.0.1:8000/api/recipes/', formData, { headers });
-                    setMessage('Recipe added successfully!');
-                    setError('');
-                } catch (refreshError) {
-                    setError('Error adding recipe.');
-                    setMessage('');
-                    console.error(refreshError);
-                }
-            }
-            setError('Error adding recipe.');
-            setMessage('');
+            await updateRecipe(id, form);
+            navigate('/my-recipes');
+        } catch (error) {
+            console.error('Error updating recipe:', error);
         }
-    };
+    }
 
     return (
-        <div className="add-recipe-container">
-            <h2>share a recipe here, chef!</h2>
-            <p>We're on the hunt for egg-cellent recipes to add to our already amazing database.</p>
-            <p></p>
-            {message && <p style={{ color: 'green' }}>{message}</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+        <div className='edit-recipe-container'>
+            <h2>edit your {formData.title} recipe</h2>
             <form onSubmit={onSubmit} encType="multipart/form-data">
                 <div className='input-container'>
                     <label htmlFor="title">Recipe Title <span style={{ color: 'red' }}>*</span></label>
                     <input
                         type="text"
                         name="title"
-                        value={title}
+                        value={formData.title}
                         onChange={onChange}
                         required
                     />
                 </div>
+
                 <div className='input-container'>
                     <label htmlFor="serving_size">Serving Size <span style={{ color: 'red' }}>*</span></label>
                     <input
                         type="number"
                         name="serving_size"
-                        value={serving_size}
+                        value={formData.serving_size}
                         onChange={onChange}
                         required
                     />
@@ -104,7 +93,7 @@ function AddRecipe() {
                     <input
                         type="number"
                         name="prep_time"
-                        value={prep_time}
+                        value={formData.prep_time}
                         onChange={onChange}
                         placeholder="15 minutes"
                         required
@@ -116,19 +105,20 @@ function AddRecipe() {
                     <input
                         type="number"
                         name="cook_time"
-                        value={cook_time}
+                        value={formData.cook_time}
                         onChange={onChange}
                         placeholder="20 minutes"
                         required
                     />
                 </div>
+
                 <div className='input-container'>
                     <label htmlFor="ingredients">Ingredients <span style={{ color: 'red' }}>*</span></label>
 
                     <textarea
                         type="text"
                         name="ingredients"
-                        value={ingredients}
+                        value={formData.ingredients}
                         onChange={onChange}
                         placeholder="Please put each ingredient and its measurement on its own line.&#10;1 tablespoon of soy sauce.&#10;2 cups of water."
                         required
@@ -140,26 +130,34 @@ function AddRecipe() {
 
                     <textarea
                         name="instruction"
-                        value={instruction}
+                        value={formData.instruction}
                         onChange={onChange}
                         placeholder="Please put each step on its own line.&#10;Mix sugar and flour.&#10;Melt the butter."
                         required
                     />
                 </div>
+
                 <div className='input-container'>
                     <label htmlFor="image">Upload a photo of your dish:</label>
 
-                    <input className="btn btn-sm btn-outline-secondary" type="file" name="image" onChange={onImageChange}>
-                    </input>
+                    {formData.imageUrl && (
+                        <div>
+                            <img src={formData.imageUrl} alt="Current dish" style={{ width: '200px', height: 'auto' }} />
+                            <p>Current Image</p>
+                        </div>
+                    )}
+                    <input
+                        className="btn btn-sm btn-outline-secondary"
+                        type="file"
+                        name="image"
+                        onChange={onImageChange}
+                    />
                 </div>
 
-                <div className='input-container'>
-                    <button type="submit">Add Recipe</button>
-                </div>
+                <button type="submit">Update Recipe</button>
             </form>
         </div>
-    )
-
+    );
 }
 
-export default AddRecipe;
+export default EditRecipe;
