@@ -3,5 +3,10 @@ Django==5.0.7
 djangorestframework==3.15.2
 django-filter==24.2
 django-cors-headers==4.4.0
+<<<<<<< HEAD
+djangorestframework-simplejwt
+Pillow==10.4.0
+=======
 djangorestframework-simplejwt==5.3.1
 Pillow==10.4.0
+>>>>>>> fe14b32aa52e1b3ace294fcb8f634d5483277224
