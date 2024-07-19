@@ -19,7 +19,7 @@ urlpatterns = [
     path("auth/login/", LoginAPI.as_view(), name='login'),
     path('cuisines/', CuisineListCreateView.as_view(),
          name='cuisine-list-create'),
-    path('', views.home, name='index'),  # Add this line for the homepage
+    path('', views.index, name='index'),  # Add this line for the homepage
 
     path('recipes/', RecipeListCreateView.as_view(), name='recipe-list-create'),
     path('recipes/<int:pk>/', RecipeDetailView.as_view(), name='recipe-detail'),
