@@ -11,6 +11,7 @@ from rest_framework_simplejwt.views import (
 )
 from django.conf import settings
 from django.conf.urls.static import static
+from . import views
 
 # The API URLs are now determined automatically by the router
 urlpatterns = [
@@ -18,6 +19,8 @@ urlpatterns = [
     path("auth/login/", LoginAPI.as_view(), name='login'),
     path('cuisines/', CuisineListCreateView.as_view(),
          name='cuisine-list-create'),
+    path('', views.home, name='index'),  # Add this line for the homepage
+
     path('recipes/', RecipeListCreateView.as_view(), name='recipe-list-create'),
     path('recipes/<int:pk>/', RecipeDetailView.as_view(), name='recipe-detail'),
     path('my-recipes/', MyRecipesAPI.as_view(), name='my-recipes'),
