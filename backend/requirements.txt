@@ -1,8 +1,7 @@
 
 Django==5.0.7
 djangorestframework==3.15.2
-djangorestframework.authtoken==1.12.1
 django-filter==24.2
 django-cors-headers==4.4.0
-djangorestframework-simplejwt
+djangorestframework-simplejwt==5.3.1
 Pillow==10.4.0
