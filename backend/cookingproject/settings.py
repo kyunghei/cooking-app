@@ -63,7 +63,9 @@ MIDDLEWARE = [
 ]
 
 # Allow all origins (for development purposes)
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = [
+    'http://egg-cellentbucket.s3-website.us-east-2.amazonaws.com',
+]
 
 ROOT_URLCONF = 'cookingproject.urls'
 

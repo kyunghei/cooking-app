@@ -44,7 +44,7 @@ function AddRecipe() {
         }
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/recipes/', data, {
+            const response = await axios.post('http://18.190.24.46:8000/recipes/', data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -56,7 +56,7 @@ function AddRecipe() {
                 try {
                     await refreshToken();
                     let headers = getAuthHeader();
-                    let response = await axios.post('http://127.0.0.1:8000/api/recipes/', formData, { headers });
+                    let response = await axios.post('http://18.190.24.46:8000/api/recipes/', formData, { headers });
                     setMessage('Recipe added successfully!');
                     setError('');
                 } catch (refreshError) {

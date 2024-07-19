@@ -44,7 +44,7 @@ export const getRecipe = async (id) => {
 
 // Get recipes user posted
 export const getMyRecipes = async (token) => {
-    const response = await apiClient.get('http://127.0.0.1:8000/my-recipes/', {
+    const response = await apiClient.get('http://18.190.24.46:8000/my-recipes/', {
         headers: {
             Authorization: `Bearer ${token}`,
         },

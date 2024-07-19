@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:8000/';
+const API_URL = 'http://18.190.24.46:8000/';
 
 async function login(username, password) {
     try {
