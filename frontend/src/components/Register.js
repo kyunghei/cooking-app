@@ -21,7 +21,7 @@ function Register() {
     async function onSubmit(e) {
         e.preventDefault();
         try {
-            const response = await axios.post('http://18.190.24.46:8000/auth/register/', formData);
+            await axios.post(`${process.env.REACT_APP_API_URL}/auth/register/`, formData);
             setMessage('Registration successful!');
             setError('');
         } catch (err) {

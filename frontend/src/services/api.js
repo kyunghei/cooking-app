@@ -2,7 +2,7 @@ import axios from 'axios';
 import { refreshToken, getAuthHeader } from './auth';
 
 
-const API_URL = 'http://127.0.0.1:8000/';
+const API_URL = process.env.REACT_APP_API_URL;
 
 const apiClient = axios.create({
     baseURL: API_URL,
@@ -32,23 +32,24 @@ apiClient.interceptors.response.use(
 
 // Get all recipes
 export const getRecipes = async () => {
-    const response = await apiClient.get(`${API_URL}recipes/`);
+    const response = await apiClient.get('/recipes/');
+    return response.data;
+}
+
+export const searchRecipes = async (query) => {
+    const response = await apiClient.get((`/recipes/?q=${query}`));
     return response.data;
 }
 
 // Get a specific recipe
 export const getRecipe = async (id) => {
-    const response = await apiClient.get(`${API_URL}recipes/${id}/`);
+    const response = await apiClient.get(`/recipes/${id}/`);
     return response.data;
 }
 
 // Get recipes user posted
 export const getMyRecipes = async (token) => {
-    const response = await apiClient.get('http://18.190.24.46:8000/my-recipes/', {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    const response = await apiClient.get('/my-recipes/');
     return response.data;
 }
 
@@ -65,4 +66,27 @@ export const updateRecipe = async (id, data) => {
         }
     });
     return response.data;
+};
+
+// add a recipe
+export const addRecipe = async (data) => {
+    try {
+        await apiClient.post('/recipes/', data);
+        return { success: true, message: 'Recipe added successfully!' };
+    } catch (err) {
+        // If error is due to unauthorized access, it will attempt to refresh token
+        if (err.response && err.response.status === 401) {
+            try {
+                await refreshToken();
+                const headers = getAuthHeader();
+                await apiClient.post('/recipes/', data, { headers });
+                return { success: true, message: 'Recipe addedd successfully after refreshing token!' };
+            } catch (refreshError) {
+                console.error('Error after refreshing token:', refreshError);
+                return { success: false, message: 'Error adding recipe after refreshing token.' };
+            }
+        }
+        console.error('Error adding recipe:', err);
+        return { success: false, message: 'Error adding recipe.' };
+    }
 };

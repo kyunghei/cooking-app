@@ -10,6 +10,8 @@ from .serializers import (
 from .permissions import IsOwnerOrReadOnly, IsAdminOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend  # type: ignore
 from django.shortcuts import render
+from rest_framework.exceptions import PermissionDenied
+from django.db.models import Q
 
 
 def index(request):
@@ -54,7 +56,7 @@ class CuisineListCreateView(generics.ListCreateAPIView):
 class RecipeListCreateView(generics.ListCreateAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend,
                        filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['author', 'cuisines']
@@ -62,7 +64,16 @@ class RecipeListCreateView(generics.ListCreateAPIView):
     ordering_fields = ['created_at', 'updated_at']
 
     def perform_create(self, serializer):
+        if self.request.user.is_anonymous:
+            raise PermissionDenied("You must be logged in to create a recipe.")
         serializer.save(author=self.request.user)
+
+    def get_queryset(self):
+        queryset = Recipe.objects.all()
+        query = self.request.query_params.get('q')
+        if query:
+            queryset = queryset.filter(Q(title__icontains=query))
+        return queryset
 
 
 class RecipeUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):

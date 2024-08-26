@@ -22,7 +22,7 @@ function Login() {
     async function onSubmit(e) {
         e.preventDefault();
         try {
-            const response = await axios.post('http://18.190.24.46:8000/auth/login/', formData);
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login/`, formData);
             localStorage.setItem('access', response.data.access);
             localStorage.setItem('refresh', response.data.refresh);
             setMessage('Login successful!');

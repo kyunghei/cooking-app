@@ -1,25 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getRecipes } from '../services/api';
+import { getRecipes, searchRecipes } from '../services/api';
 import '../App.css'
 
 function Home() {
 
     const [recipes, setRecipes] = useState([]);
+    const [query, setQuery] = useState('');
 
     useEffect(() => {
         async function fetchRecipes() {
-            const data = await getRecipes();
-            setRecipes(data);
+            if (query) {
+                const data = await searchRecipes(query);
+                setRecipes(data);
+            } else {
+                const data = await getRecipes();
+                setRecipes(data);
+            }
         };
         fetchRecipes();
-    }, []);
+    }, [query]);
 
     const defaultImage = `${process.env.PUBLIC_URL}/logo.jpg`;
 
     return (
         <div className="recipe-body">
-            <h2>all recipes</h2>
+            <div className="search-container">
+                <h2>{query ? 'Search Results' : 'All Recipes'}</h2>
+                <input className="form-control mr-sm-2" type="text" placeholder="Search recipe..." value={query} onChange={(e) => setQuery(e.target.value)} />
+            </div>
 
             <div className="recipe-container">
                 {recipes.map((recipe) => (

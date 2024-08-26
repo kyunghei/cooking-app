@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { getAuthHeader, refreshToken } from '../services/auth';
-
+import { addRecipe } from '../services/api';
 
 function AddRecipe() {
     const [formData, setFormData] = useState({
@@ -29,7 +27,6 @@ function AddRecipe() {
 
     async function onSubmit(e) {
         e.preventDefault();
-        const token = localStorage.getItem('access');
 
         const data = new FormData();
         data.append('title', title);
@@ -43,31 +40,16 @@ function AddRecipe() {
             data.append('image', image);
         }
 
-        try {
-            const response = await axios.post('http://18.190.24.46:8000/recipes/', data, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setMessage('Recipe added successfully!');
+        const result = await addRecipe(data);
+        if (result.success) {
+            setMessage(result.message);
             setError('');
-        } catch (err) {
-            if (err.response.status === 401) {
-                try {
-                    await refreshToken();
-                    let headers = getAuthHeader();
-                    let response = await axios.post('http://18.190.24.46:8000/api/recipes/', formData, { headers });
-                    setMessage('Recipe added successfully!');
-                    setError('');
-                } catch (refreshError) {
-                    setError('Error adding recipe.');
-                    setMessage('');
-                    console.error(refreshError);
-                }
-            }
-            setError('Error adding recipe.');
+        } else {
+            setError(result.message);
             setMessage('');
         }
+
+
     };
 
     return (

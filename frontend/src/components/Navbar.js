@@ -1,5 +1,5 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import '../App.css'
 
 
@@ -64,6 +64,7 @@ function Navbar() {
 
                     </ul>
                 </div>
+
             </div>
             <img src={`${process.env.PUBLIC_URL}/divider.jpg`} alt='divider' height='50px' width='70%'></img>
         </nav >
