@@ -1,1 +1,1 @@
-web: gunicorn backend.cookingproject.wsgi
+web: gunicorn --chdir backend cookingproject.wsgi
