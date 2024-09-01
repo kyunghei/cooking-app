@@ -21,7 +21,7 @@ function Home() {
         fetchRecipes();
     }, [query]);
 
-    const defaultImage = `${process.env.PUBLIC_URL}/logo.jpg`;
+    const defaultImage = `logo.jpg`;
 
     return (
         <div className="recipe-body">
