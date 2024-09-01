@@ -26,7 +26,7 @@ function Navbar() {
         <nav className="navbar navbar-expand-lg  nav-custom">
             <div className="container-fluid" >
                 <a className="navbar-brand" href="/">
-                    <img src="/static/logo.jpg" alt="Logo" width="150px" className="d-inline-block align-text-top"></img>
+                    <img src="https://eggcellent-backend-cb142e407950.herokuapp.com/static/logo.jpg" alt="Logo" width="150px" className="d-inline-block align-text-top"></img>
                 </a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -66,7 +66,7 @@ function Navbar() {
                 </div>
 
             </div>
-            <img src="/static/divider.jpg" alt='divider' height='50px' width='70%'></img>
+            <img src="https://eggcellent-backend-cb142e407950.herokuapp.com/static/divider.jpg" alt='divider' height='50px' width='70%'></img>
         </nav >
     )
 }
