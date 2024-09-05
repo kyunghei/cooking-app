@@ -1,1 +1,1 @@
-web: gunicorn --chdir backend cookingproject.wsgi
+web: npm run build --prefix frontend && gunicorn --chdir backend cookingproject.wsgi
