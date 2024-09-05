@@ -181,7 +181,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '..', 'static_frontend'),
+    os.path.join(BASE_DIR, '..', 'frontend', 'build', 'static'),
+    os.path.join(BASE_DIR, '..', 'frontend', 'build'),
 ]
 # Simplified static file serving.
 # https://whitenoise.readthedocs.io/en/latest/
