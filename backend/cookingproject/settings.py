@@ -181,13 +181,19 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '..', 'frontend', 'build', 'static'),
-    os.path.join(BASE_DIR, '..', 'frontend', 'build'),
+    os.path.abspath(os.path.join(
+        BASE_DIR, '..', 'frontend', 'build', 'static')),
+    os.path.abspath(os.path.join(BASE_DIR, '..', 'frontend', 'build')),
 ]
 # Simplified static file serving.
 # https://whitenoise.readthedocs.io/en/latest/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+print("Base directory:", BASE_DIR)
+print("Frontend build static path:", os.path.join(
+    BASE_DIR, '..', 'frontend', 'build', 'static'))
+print("Frontend build path:", os.path.join(
+    BASE_DIR, '..', 'frontend', 'build'))
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
