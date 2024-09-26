@@ -1,1 +1,2 @@
-web: npm run build --prefix frontend && gunicorn --chdir backend cookingproject.wsgi
+release: npm install --prefix frontend && npm run build --prefix frontend
+web: cd backend && gunicorn cookingproject.wsgi
