@@ -65,7 +65,7 @@ function Navbar() {
                     </ul>
                 </div>
             </div>
-            <img src={`images/divider.jpg`} alt='divider' height='50px' width='70%'></img>
+            <img src={`/images/divider.jpg`} alt='divider' height='50px' width='70%'></img>
         </nav >
     )
 }
