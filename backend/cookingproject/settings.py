@@ -31,7 +31,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 
-ALLOWED_HOSTS = ['18.190.24.46', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['https://cooking-app-demo-35a074f514f1.herokuapp.com/',
+                 '18.190.24.46', 'localhost', '127.0.0.1']
 
 
 # Application definition
