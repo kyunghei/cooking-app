@@ -2,7 +2,7 @@ import axios from 'axios';
 import { refreshToken, getAuthHeader } from './auth';
 
 
-const API_URL = 'http://127.0.0.1:8000/';
+const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
 
 const apiClient = axios.create({
     baseURL: API_URL,
@@ -32,19 +32,19 @@ apiClient.interceptors.response.use(
 
 // Get all recipes
 export const getRecipes = async () => {
-    const response = await apiClient.get(`${API_URL}recipes/`);
+    const response = await apiClient.get('recipes/');
     return response.data;
 }
 
 // Get a specific recipe
 export const getRecipe = async (id) => {
-    const response = await apiClient.get(`${API_URL}recipes/${id}/`);
+    const response = await apiClient.get(`recipes/${id}/`);
     return response.data;
 }
 
 // Get recipes user posted
 export const getMyRecipes = async (token) => {
-    const response = await apiClient.get('http://127.0.0.1:8000/my-recipes/', {
+    const response = await apiClient.get('/my-recipes/', {
         headers: {
             Authorization: `Bearer ${token}`,
         },
