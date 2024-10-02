@@ -1,0 +1,13 @@
+=== DATABASE_URL
+Plan:                  essential-0
+Status:                Available
+Connections:           0/20
+PG Version:            16.3
+Created:               2024-09-27 19:47 
+Data Size:             8.66 MB / 1 GB (0.85%) (In compliance)
+Tables:                16/4000 (In compliance)
+Fork/Follow:           Unsupported
+Rollback:              Unsupported
+Continuous Protection: Off
+Add-on:                postgresql-triangular-78516
+

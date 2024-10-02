@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
+
 function Register() {
     const [formData, setFormData] = useState({
         username: '',
@@ -21,7 +23,7 @@ function Register() {
     async function onSubmit(e) {
         e.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/auth/register/', formData);
+            const response = await axios.post(`${API_URL}/auth/register/`, formData);
             setMessage('Registration successful!');
             setError('');
         } catch (err) {
