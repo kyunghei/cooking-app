@@ -26,7 +26,10 @@ function Home() {
                     <div className="card card-custom" key={recipe.id}>
                         <div className="card-body">
                             <img
-                                src={recipe.image ? recipe.image : defaultImage} className="card-img-top" alt={recipe.title}></img>
+                                src={recipe.image && recipe.image.trim() !== '' ? recipe.image : defaultImage}
+                                className="card-img-top"
+                                alt={recipe.title || 'default'}
+                            />
                             <div className="card-body">
                                 <h5 className="card-title">{recipe.title}</h5>
                                 <p className="card-text">{recipe.cusine}</p>
