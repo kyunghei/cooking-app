@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
+const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000';
 
 function Register() {
     const [formData, setFormData] = useState({
