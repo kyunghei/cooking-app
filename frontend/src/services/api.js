@@ -44,7 +44,7 @@ export const getRecipe = async (id) => {
 
 // Get recipes user posted
 export const getMyRecipes = async (token) => {
-    const response = await apiClient.get('/my-recipes/', {
+    const response = await apiClient.get('my-recipes/', {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -53,12 +53,12 @@ export const getMyRecipes = async (token) => {
 }
 
 export const deleteRecipe = async (id) => {
-    const response = await apiClient.delete(`/recipes/${id}/`);
+    const response = await apiClient.delete(`recipes/${id}/`);
     return response.data;
 };
 
 export const updateRecipe = async (id, data) => {
-    const response = await apiClient.put(`/recipes/${id}/`, data, {
+    const response = await apiClient.put(`recipes/${id}/`, data, {
         headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${localStorage.getItem('access')}`,
