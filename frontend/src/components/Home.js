@@ -15,7 +15,7 @@ function Home() {
         fetchRecipes();
     }, []);
 
-    const defaultImage = `/static/images/logo.jpg`;
+    const defaultImage = `/media/recipe_images/logo.jpg`;
 
     return (
         <div className="recipe-body">
