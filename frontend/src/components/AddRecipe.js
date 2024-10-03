@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { getAuthHeader, refreshToken } from '../services/auth';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
 
 function AddRecipe() {
     const [formData, setFormData] = useState({
@@ -44,7 +45,7 @@ function AddRecipe() {
         }
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/recipes/', data, {
+            const response = await axios.post(`${API_URL}recipes/`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -56,7 +57,7 @@ function AddRecipe() {
                 try {
                     await refreshToken();
                     let headers = getAuthHeader();
-                    let response = await axios.post('http://127.0.0.1:8000/api/recipes/', formData, { headers });
+                    let response = await axios.post(`${API_URL}api/recipes/`, formData, { headers });
                     setMessage('Recipe added successfully!');
                     setError('');
                 } catch (refreshError) {
