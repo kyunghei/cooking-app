@@ -26,7 +26,7 @@ function Home() {
                     <div className="card card-custom" key={recipe.id}>
                         <div className="card-body">
                             <img
-                                src={recipe.image && recipe.image.trim() !== '' ? recipe.image : defaultImage}
+                                src={recipe.image ? recipe.image : defaultImage}
                                 className="card-img-top"
                                 alt={recipe.title || 'default'}
                             />
