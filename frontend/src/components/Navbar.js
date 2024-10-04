@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import React from 'react';
 import '../App.css'
 
@@ -46,7 +46,7 @@ function Navbar() {
                                     Account
                                 </button>
                                 <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="/my-recipes/">My Recipes</a></li>
+                                    <li><Link className="dropdown-item" to="/my-recipes/">My Recipes</Link></li>
                                     <li><button className="dropdown-item" onClick={handleLogout}>Logout</button></li>
                                 </ul>
                             </li>

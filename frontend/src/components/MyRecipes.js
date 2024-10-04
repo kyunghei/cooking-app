@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { getMyRecipes, deleteRecipe } from '../services/api';
 import { Link } from 'react-router-dom';
 
 
 function MyRecipes() {
+    console.log("MyRecipes component rendered");  // Log here
+
     const [recipes, setRecipes] = useState([]);
 
     useEffect(() => {
