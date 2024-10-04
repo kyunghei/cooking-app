@@ -15,6 +15,7 @@ import os
 import dj_database_url
 import django_heroku
 from decouple import config
+from corsheaders.defaults import default_headers
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -66,6 +67,9 @@ MIDDLEWARE = [
 
 # Allow all origins (for development purposes)
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'Authorization',  # Add the Authorization header to allowed headers
+]
 
 ROOT_URLCONF = 'cookingproject.urls'
 
