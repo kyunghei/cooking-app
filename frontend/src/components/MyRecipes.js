@@ -8,6 +8,8 @@ function MyRecipes() {
     const [recipes, setRecipes] = useState([]);
 
     useEffect(() => {
+        console.log("MyRecipes component loaded");
+
         async function fetchMyRecipes() {
             const token = localStorage.getItem('access');
             if (!token) {

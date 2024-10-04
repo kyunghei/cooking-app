@@ -49,6 +49,7 @@ export const getRecipes = async () => {
 // Get a specific recipe
 export const getRecipe = async (id) => {
     const response = await apiClient.get(`recipes/${id}/`);
+    console.log('API response:', response);
     return response.data;
 }
 
