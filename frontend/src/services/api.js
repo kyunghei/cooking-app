@@ -5,8 +5,18 @@ import { refreshToken, getAuthHeader } from './auth';
 const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
 
 const apiClient = axios.create({
-    baseURL: API_URL,
-    headers: getAuthHeader()
+    baseURL: API_URL
+});
+
+// Add a request interceptor to add token before each request
+apiClient.interceptors.request.use((config) => {
+    const token = localStorage.getItem('access'); // Fetch token from localStorage
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;  // Set token in headers
+    }
+    return config;
+}, (error) => {
+    return Promise.reject(error);
 });
 
 apiClient.interceptors.response.use(
@@ -44,11 +54,6 @@ export const getRecipe = async (id) => {
 
 // Get recipes user posted
 export const getMyRecipes = async () => {
-    const token = localStorage.getItem('access'); // Fetch token from local storage
-    if (!token) {
-        console.error('No token found in local storage');
-        return;
-    }
 
     const response = await apiClient.get('my-recipes/');
     return response.data;
