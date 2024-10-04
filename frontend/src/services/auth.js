@@ -39,6 +39,7 @@ async function refreshToken() {
 
 function getAuthHeader() {
     const token = localStorage.getItem('access');
+    console.log("Token in localstorage:", token);
     return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
