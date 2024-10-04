@@ -46,17 +46,17 @@ function Navbar() {
                                     Account
                                 </button>
                                 <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="/my-recipes">My Recipes</a></li>
+                                    <li><a className="dropdown-item" href="/my-recipes/">My Recipes</a></li>
                                     <li><button className="dropdown-item" onClick={handleLogout}>Logout</button></li>
                                 </ul>
                             </li>
                         ) : (
                             <>
                                 <li className="nav-item">
-                                    <button onClick={() => navigate('/login')} className="btn btn-sm btn-outline-secondary">Login</button>
+                                    <button onClick={() => navigate('/login/')} className="btn btn-sm btn-outline-secondary">Login</button>
                                 </li>
                                 <li className="nav-item">
-                                    <button onClick={() => navigate('/register')} className="btn btn-sm btn-outline-secondary">Register</button>
+                                    <button onClick={() => navigate('/register/')} className="btn btn-sm btn-outline-secondary">Register</button>
                                 </li>
                             </>
 
