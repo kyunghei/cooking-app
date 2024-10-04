@@ -15,7 +15,7 @@ import os
 import dj_database_url
 import django_heroku
 from decouple import config
-from corsheaders.defaults import default_headers
+from corsheaders import default_headers
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
