@@ -50,11 +50,7 @@ export const getMyRecipes = async () => {
         return;
     }
 
-    const response = await apiClient.get('my-recipes/', {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    const response = await apiClient.get('my-recipes/');
     return response.data;
 }
 
