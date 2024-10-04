@@ -10,10 +10,13 @@ function MyRecipes() {
     useEffect(() => {
         async function fetchMyRecipes() {
             const token = localStorage.getItem('access');
-            console.log("Token in localstorage:", token);
+            if (!token) {
+                console.error('No token found in local storage');
+                return;
+            }
 
             try {
-                const data = await getMyRecipes(token);
+                const data = await getMyRecipes();
                 console.log("Fetched data:", data);
                 setRecipes(data);
             } catch (error) {

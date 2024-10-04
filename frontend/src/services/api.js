@@ -43,7 +43,13 @@ export const getRecipe = async (id) => {
 }
 
 // Get recipes user posted
-export const getMyRecipes = async (token) => {
+export const getMyRecipes = async () => {
+    const token = localStorage.getItem('access'); // Fetch token from local storage
+    if (!token) {
+        console.error('No token found in local storage');
+        return;
+    }
+
     const response = await apiClient.get('my-recipes/', {
         headers: {
             Authorization: `Bearer ${token}`,

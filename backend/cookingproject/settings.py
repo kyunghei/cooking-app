@@ -15,7 +15,7 @@ import os
 import dj_database_url
 import django_heroku
 from decouple import config
-from corsheaders import default_headers
+from corsheaders.defaults import default_headers
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -54,22 +54,23 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware'
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
+
 ]
 
 # Allow all origins (for development purposes)
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_HEADERS = list(default_headers) + [
+CORS_ALLOW_HEADERS = (list(default_headers) + [
     'Authorization',  # Add the Authorization header to allowed headers
-]
+])
 
 ROOT_URLCONF = 'cookingproject.urls'
 
