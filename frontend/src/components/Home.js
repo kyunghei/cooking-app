@@ -28,8 +28,10 @@ function Home() {
 
     async function fetchFilteredRecipes(cuisine = '') {
         // Fetch recipes, optionally filtered by cuisine
-        const response = getRecipesByCuisine(cuisine);
-        setRecipes(response);
+        const data = getRecipesByCuisine(cuisine);
+        console.log('Fetched recipes by cuisine:', data); // Log the response to check
+
+        setRecipes(Array.isArray(data) ? data : []);
     }
 
     const handleCuisineChange = (e) => {

@@ -59,8 +59,14 @@ export const getCuisines = async () => {
 }
 
 export const getRecipesByCuisine = async (cuisineId) => {
-    const response = await apiClient.get(`recipes/?cuisines=${cuisineId}`);
-    return response.data;
+    try {
+        const response = await apiClient.get(`recipes/?cuisines=${cuisineId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching recipes by cuisine:', error);
+        return []; // Return an empty array on error
+    }
+
 }
 
 // Get recipes user posted
