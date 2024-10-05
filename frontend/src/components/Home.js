@@ -10,34 +10,43 @@ function Home() {
     const [cuisines, setCuisines] = useState([]);
     const [selectedCuisine, setSelectedCuisine] = useState('');
 
+    // Fetch all recipes and cuisines on component mount
     useEffect(() => {
-        async function fetchRecipes() {
-            const data = await getRecipes();
-            setRecipes(data);
+        async function fetchInitialData() {
+            const allRecipes = await getRecipes();
+            setRecipes(allRecipes);
+
+            const allCuisines = await getCuisines();
+            setCuisines(allCuisines);
         };
-        fetchRecipes();
-
-        // Fetch all cuisines for filter dropdown
-        async function fetchCuisines() {
-            const response = await getCuisines();
-            setCuisines(response);
-        }
-
-        fetchCuisines();
+        fetchInitialData();
     }, []);
 
-    async function fetchFilteredRecipes(cuisine = '') {
-        // Fetch recipes, optionally filtered by cuisine
-        const data = getRecipesByCuisine(cuisine);
-        console.log('Fetched recipes by cuisine:', data); // Log the response to check
+    // Fetch filtered recipes based on selected cuisine
+    useEffect(() => {
+        async function fetchFilteredRecipes(cuisine = '') {
+            const filteredRecipes = await getRecipesByCuisine(cuisine);
+            console.log('Fetched recipes by cuisine:', filteredRecipes); // Log the response to check
+            setRecipes(Array.isArray(filteredRecipes) ? filteredRecipes : []);
+        }
 
-        setRecipes(Array.isArray(data) ? data : []);
-    }
+        if (selectedCuisine) {
+            fetchFilteredRecipes(selectedCuisine);
+        } else {
+            // If no cuisine is selected, fetch all recipes
+            async function fetchAllRecipes() {
+                const allRecipes = await getRecipes();
+                setRecipes(allRecipes);
+            }
+            fetchAllRecipes();
+        }
+    }, [selectedCuisine]);
 
+    // Handle when cuisine selection changes
     const handleCuisineChange = (e) => {
-        setSelectedCuisine(e.target.value);
-        fetchFilteredRecipes(e.target.value);
-    }
+        const selectedCuisineId = e.target.value;
+        setSelectedCuisine(selectedCuisineId);
+    };
 
     const defaultImage = `/media/recipe_images/logo.jpg`;
 
@@ -56,22 +65,28 @@ function Home() {
                 </select>
             </div>
             <div className="recipe-container">
-                {recipes.map((recipe) => (
-                    <div className="card card-custom" key={recipe.id}>
-                        <div className="card-body">
-                            <img
-                                src={recipe.image ? recipe.image : defaultImage}
-                                className="card-img-top"
-                                alt={recipe.title || 'default'}
-                            />
+                {recipes.length > 0 ? (
+                    recipes.map((recipe) => (
+                        <div className="card card-custom" key={recipe.id}>
                             <div className="card-body">
-                                <h5 className="card-title">{recipe.title}</h5>
-                                <p className="card-text">{recipe.cusine}</p>
-                                <Link to={`/recipes/${recipe.id}`} className="btn btn-sm btn-outline-secondary">View Recipe</Link>
+                                <img
+                                    src={recipe.image ? recipe.image : defaultImage}
+                                    className="card-img-top"
+                                    alt={recipe.title || 'default'}
+                                />
+                                <div className="card-body">
+                                    <h5 className="card-title">{recipe.title}</h5>
+                                    <p className="card-text">{recipe.cuisine}</p>
+                                    <Link to={`/recipes/${recipe.id}`} className="btn btn-sm btn-outline-secondary">
+                                        View Recipe
+                                    </Link>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                ) : (
+                    <p>No recipes found.</p>
+                )}
             </div>
 
         </div>
