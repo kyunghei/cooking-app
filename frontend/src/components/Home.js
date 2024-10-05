@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getRecipes } from '../services/api';
+import { getRecipes, getCuisines, getRecipesByCuisine } from '../services/api';
 import '../App.css'
+
 
 function Home() {
 
     const [recipes, setRecipes] = useState([]);
+    const [cuisines, setCuisines] = useState([]);
+    const [selectedCuisine, setSelectedCuisine] = useState('');
 
     useEffect(() => {
         async function fetchRecipes() {
@@ -13,14 +16,43 @@ function Home() {
             setRecipes(data);
         };
         fetchRecipes();
+
+        // Fetch all cuisines for filter dropdown
+        async function fetchCuisines() {
+            const response = await getCuisines();
+            setCuisines(response);
+        }
+
+        fetchCuisines();
     }, []);
+
+    async function fetchFilteredRecipes(cuisine = '') {
+        // Fetch recipes, optionally filtered by cuisine
+        const response = getRecipesByCuisine(cuisine);
+        setRecipes(response);
+    }
+
+    const handleCuisineChange = (e) => {
+        setSelectedCuisine(e.target.value);
+        fetchFilteredRecipes(e.target.value);
+    }
 
     const defaultImage = `/media/recipe_images/logo.jpg`;
 
     return (
         <div className="recipe-body">
-            <h2>all recipes</h2>
-
+            <h2>All Recipes</h2>
+            <div>
+                <label htmlFor="cuisine-filter">Filter by Cuisine: </label>
+                <select id="cuisine-filter" value={selectedCuisine} onChange={handleCuisineChange}>
+                    <option value="">All Cuisines</option>
+                    {cuisines.map((cuisine) => (
+                        <option key={cuisine.id} value={cuisine.id}>
+                            {cuisine.name}
+                        </option>
+                    ))}
+                </select>
+            </div>
             <div className="recipe-container">
                 {recipes.map((recipe) => (
                     <div className="card card-custom" key={recipe.id}>

@@ -17,7 +17,7 @@ from . import views
 urlpatterns = [
     path("auth/register/", RegisterAPI.as_view(), name='register'),
     path("auth/login/", LoginAPI.as_view(), name='login'),
-    path('cuisines/', CuisineListCreateView.as_view(),
+    path('api/cuisines/', CuisineListCreateView.as_view(),
          name='cuisine-list-create'),
     path('', views.index, name='index'),  # Add this line for the homepage
 

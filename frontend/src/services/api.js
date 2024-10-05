@@ -2,7 +2,7 @@ import axios from 'axios';
 import { refreshToken, getAuthHeader } from './auth';
 
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
+const API_URL = 'http://127.0.0.1:8000/';
 
 const apiClient = axios.create({
     baseURL: API_URL
@@ -50,6 +50,16 @@ export const getRecipes = async () => {
 export const getRecipe = async (id) => {
     const response = await apiClient.get(`recipes/${id}/`);
     console.log('API response:', response);
+    return response.data;
+}
+
+export const getCuisines = async () => {
+    const response = await apiClient.get(`api/cuisines/`);
+    return response.data;
+}
+
+export const getRecipesByCuisine = async (cuisineId) => {
+    const response = await apiClient.get(`recipes/?cuisines=${cuisineId}`);
     return response.data;
 }
 

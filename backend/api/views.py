@@ -58,8 +58,15 @@ class RecipeListCreateView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend,
                        filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['author', 'cuisines']
-    search_fields = ['title', 'cuisine']
+    search_fields = ['title', 'cuisines__name']
     ordering_fields = ['created_at', 'updated_at']
+
+    def get_queryset(self):
+        queryset = Recipe.objects.all()
+        cuisine_name = self.request.query_params.get('cuisine_name', None)
+        if cuisine_name:
+            queryset = queryset.filter(cuisines__name__iexact=cuisine_name)
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)

@@ -13,6 +13,7 @@ function Login() {
     });
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const { username, password } = formData;
 
@@ -22,16 +23,19 @@ function Login() {
 
     async function onSubmit(e) {
         e.preventDefault();
+        setLoading(true);
         try {
             const response = await axios.post(`${API_URL}auth/login/`, formData);
             localStorage.setItem('access', response.data.access);
             localStorage.setItem('refresh', response.data.refresh);
             setMessage('Login successful!');
             setError('');
+            setLoading(false);
             navigate('/');
         } catch (err) {
             setError('Login failed.');
             setMessage('');
+            setLoading(false);
         }
     }
 
@@ -57,7 +61,13 @@ function Login() {
                     placeholder="Password"
                     required
                 />
-                <button type="submit" >Login</button>
+                {loading ? (
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                ) : (
+                    <button type="submit" >Login</button>
+                )}
             </form>
             <div>
                 New? <Link to='/register'>Register Here</Link>
