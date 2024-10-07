@@ -53,16 +53,24 @@ function Home() {
     return (
         <div className="recipe-body">
             <h2>All Recipes</h2>
-            <div>
-                <label htmlFor="cuisine-filter">Filter by Cuisine: </label>
-                <select id="cuisine-filter" value={selectedCuisine} onChange={handleCuisineChange}>
-                    <option value="">All Cuisines</option>
+            <div className="dropdown my-4">
+                <button className="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {selectedCuisine ? cuisines.find(c => c.id === parseInt(selectedCuisine))?.name : "Filter by Cuisine"}
+                </button>
+                <ul className="dropdown-menu">
+                    <li>
+                        <button className="dropdown-item" value="" onClick={() => handleCuisineChange({ target: { value: '' } })}>
+                            All Cuisines
+                        </button>
+                    </li>
                     {cuisines.map((cuisine) => (
-                        <option key={cuisine.id} value={cuisine.id}>
-                            {cuisine.name}
-                        </option>
+                        <li key={cuisine.id}>
+                            <button className="dropdown-item" value={cuisine.id} onClick={() => handleCuisineChange({ target: { value: cuisine.id } })}>
+                                {cuisine.name}
+                            </button>
+                        </li>
                     ))}
-                </select>
+                </ul>
             </div>
             <div className="recipe-container">
                 {recipes.length > 0 ? (
@@ -89,7 +97,7 @@ function Home() {
                 )}
             </div>
 
-        </div>
+        </div >
     )
 }
 

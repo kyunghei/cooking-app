@@ -32,20 +32,33 @@
     .nav-item {
       margin: 30px 10px;
 
-      button,
-      a {
-        font-size: 17px;
-        padding: 5px 15px;
+      .btn {
+        background-color: #5c7061;
+        /* Transparent background */
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        margin: 0 8px;
+        font-size: 1rem;
+        transition: color 0.3s ease, background-color 0.3s ease;
       }
 
-      button:hover,
-      a:hover {
+      .btn:hover,
+      .btn:focus {
         background-color: #5c7061;
         color: white;
       }
+
+      .dropdown-item {
+        font-weight: 400;
+        font-size: 0.875rem;
+      }
+
     }
   }
 }
+
 
 .recipe-body {
   max-width: 1200px;
@@ -111,10 +124,17 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    color: #5c7061;
+    border-color: #5c7061;
   }
 
+  .btn:focus,
   .btn:hover {
+    border: 2px;
     background-color: #5c7061;
+    color: white;
+    outline: none;
+    box-shadow: none;
   }
 }
 
@@ -342,5 +362,13 @@
 
   .btn {
     margin: 0 5px;
+  }
+
+  .btn:hover,
+  .btn:focus {
+    background-color: #5c7061;
+    color: white;
+    outline: none;
+    box-shadow: none;
   }
 }

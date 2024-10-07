@@ -35,7 +35,7 @@ function Navbar() {
                     <div><h1>egg-cellent</h1></div>
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a className="btn btn-sm btn-outline-secondary" type="button" href='/'>Home</a>
+                            <Link className="btn btn-sm btn-outline-secondary" to="/">Home</Link>
                         </li>
                         <li className="nav-item">
                             <button className="btn btn-sm btn-outline-secondary" type="button" onClick={handleAddRecipe}>Add Recipe</button>
