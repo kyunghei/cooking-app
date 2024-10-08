@@ -41,7 +41,7 @@ function Login() {
 
     return (
         <div className="login-container">
-            <h2>welcome back chef!</h2>
+            <h2>WELCOME BACK CHEF!</h2>
             {message && <p style={{ color: 'green' }}>{message}</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={onSubmit}>

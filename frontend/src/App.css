@@ -143,13 +143,11 @@
   margin: 30px;
   text-align: center;
   font-family:
-    'Arial Narrow',
-    Arial,
-    sans-serif;
+    "Caveat";
 
   h2 {
     font-size: 30px;
-    letter-spacing: 3px;
+    letter-spacing: 0px;
   }
 
   form,
@@ -164,6 +162,20 @@
     button,
     textarea {
       margin: 10px 0;
+      font-family: sans-serif;
+      padding: 5px;
+      font-size: .9rem;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      margin: 30px 8px;
+      font-size: 1rem;
+      transition: color 0.3s ease, background-color 0.3s ease;
+      background-color: #5c7061;
+      color: white;
     }
   }
 
@@ -173,17 +185,23 @@
 .edit-recipe-container {
   margin: 30px;
   text-align: center;
-  /* font-family:
-    'Arial Narrow',
-    Arial,
-    sans-serif; */
+
 
   h2 {
-    font-size: 30px;
-    letter-spacing: 3px;
+    font-size: 2rem;
+    font-family: 'Caveat';
   }
 
-  form,
+  form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+  }
+
   p {
     min-width: 300px;
     width: 400px;
@@ -193,23 +211,58 @@
   }
 
   .input-container {
-    margin: 10px 0;
-    display: flex;
-    flex-direction: column;
+    margin-bottom: 20px;
+
 
     label {
-      margin: 2px 0;
-      text-align: left;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #333;
+      display: block;
+      margin-bottom: 5px;
     }
 
+    input[type="text"],
+    input[type="number"],
     textarea {
-      height: 200px;
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #007bff;
+      background-color: #fff;
+    }
+
+    input[type="file"] {
+      padding: 10px;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
     }
 
     button {
       margin-top: 10px;
       margin-bottom: 100px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      margin: 30px 8px;
+      font-size: 1rem;
+      transition: color 0.3s ease, background-color 0.3s ease;
+      background-color: #5c7061;
+      color: white;
     }
+
+
   }
 
 }
@@ -234,8 +287,8 @@
   .recipe-image-container {
     flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: first baseline;
+    align-items: first baseline;
   }
 
   .recipe-image {
@@ -323,14 +376,7 @@
 
 
 .myrecipe-container {
-  /* margin: 30px 20%; */
   text-align: center;
-  font-family:
-    'Arial Narrow',
-    Arial,
-    sans-serif;
-
-
   display: flex;
   flex-wrap: wrap;
   width: 80%;
@@ -341,10 +387,9 @@
   h2 {
     text-align: center;
     font-size: 30px;
-    letter-spacing: 3px;
     margin: 30px 0;
-
-
+    font-family:
+      'Caveat';
   }
 
   .card-custom {

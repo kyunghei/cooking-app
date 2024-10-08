@@ -42,7 +42,7 @@ function MyRecipes() {
 
     return (
         <div className='myrecipe-container'>
-            <h2>your delicious recipe contributions</h2>
+            <h2>YOUR DELICIOUS RECIPE CONTRIBUTIONS</h2>
             <div className="myrecipe-container">
                 {recipes.map((recipe) => (
                     <div className="card card-custom" key={recipe.id}>
