@@ -97,8 +97,10 @@
   }
 
   .card-img-top {
+    margin: 0 auto;
     width: 100%;
-    height: 200px;
+    height: auto;
+    max-height: 250px;
     object-fit: cover;
   }
 
@@ -190,6 +192,7 @@
   h2 {
     font-size: 2rem;
     font-family: 'Caveat';
+    margin-bottom: 20px;
   }
 
   form {
@@ -200,6 +203,19 @@
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: left;
+
+    button {
+      margin-top: 10px;
+      margin-bottom: 100px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      margin: 30px 8px;
+      font-size: 1rem;
+      transition: color 0.3s ease, background-color 0.3s ease;
+      background-color: #5c7061;
+      color: white;
+    }
   }
 
   p {
@@ -374,6 +390,11 @@
   }
 }
 
+.myrecipe-body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
 .myrecipe-container {
   text-align: center;
@@ -395,6 +416,11 @@
   .card-custom {
     width: 30%;
     margin: 17px;
+  }
+
+  .card-custom:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
 
   .card-img-top {
