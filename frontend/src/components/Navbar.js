@@ -26,7 +26,7 @@ function Navbar() {
         <nav className="navbar navbar-expand-lg  nav-custom">
             <div className="container-fluid" >
                 <a className="navbar-brand" href="/">
-                    <img src={`static/images/logo.jpg`} alt="Logo" width="150px" className="d-inline-block align-text-top"></img>
+                    <img src={`/static/images/logo.jpg`} alt="Logo" width="150px" className="d-inline-block align-text-top"></img>
                 </a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
