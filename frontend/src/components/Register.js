@@ -23,7 +23,7 @@ function Register() {
     async function onSubmit(e) {
         e.preventDefault();
         try {
-            const response = await axios.post(`${API_URL}register/`, formData);
+            const response = await axios.post(`${API_URL}auth/register/`, formData);
             setMessage('Registration successful!');
             setError('');
         } catch (err) {

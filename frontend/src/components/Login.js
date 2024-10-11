@@ -25,7 +25,7 @@ function Login() {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.post(`${API_URL}login/`, formData);
+            const response = await axios.post(`${API_URL}auth/login/`, formData);
             localStorage.setItem('access', response.data.access);
             localStorage.setItem('refresh', response.data.refresh);
             setMessage('Login successful!');
