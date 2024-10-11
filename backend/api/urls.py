@@ -15,8 +15,8 @@ from . import views
 
 # The API URLs are now determined automatically by the router
 urlpatterns = [
-    path("auth/register/", RegisterAPI.as_view(), name='register'),
-    path("auth/login/", LoginAPI.as_view(), name='login'),
+    path("register/", RegisterAPI.as_view(), name='register'),
+    path("login/", LoginAPI.as_view(), name='login'),
     path('api/cuisines/', CuisineListCreateView.as_view(),
          name='cuisine-list-create'),
     path('', views.index, name='index'),  # Add this line for the homepage
