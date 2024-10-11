@@ -28,7 +28,10 @@ urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
-    path('recipes/<int:pk>/', RecipeUpdateDeleteView.as_view(), name='recipe-detail'),
+    path('recipes/<int:pk>/update/',
+         RecipeUpdateDeleteView.as_view(), name='recipe-detail'),
+
+    # Catch-all route for frontend (React)
     re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
