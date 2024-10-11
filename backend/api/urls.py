@@ -31,7 +31,9 @@ urlpatterns = [
     path('recipes/<int:pk>/update/',
          RecipeUpdateDeleteView.as_view(), name='recipe-detail'),
 
-    # Catch-all route for frontend (React)
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Catch-all route for frontend (React)
+urlpatterns += [
+    re_path(r'^.*$', TemplateView.as_view(template_name='index.html'))
+]
