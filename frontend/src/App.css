@@ -97,10 +97,8 @@
   }
 
   .card-img-top {
-    margin: 0 auto;
     width: 100%;
-    height: auto;
-    max-height: 250px;
+    height: 200px;
     object-fit: cover;
   }
 
@@ -427,10 +425,8 @@
   }
 
   .card-img-top {
-    margin: 0 auto;
     width: 100%;
-    height: auto;
-    max-height: 250px;
+    height: 200px;
     object-fit: cover;
   }
 
