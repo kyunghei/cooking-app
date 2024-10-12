@@ -54,7 +54,7 @@ function AddRecipe() {
 
     return (
         <div className="add-recipe-container">
-            <h2>share a recipe here, chef!</h2>
+            <h2>SHARE A RECIPE, CHEF!</h2>
             <p>We're on the hunt for egg-cellent recipes to add to our already amazing database.</p>
             <p></p>
             {message && <p style={{ color: 'green' }}>{message}</p>}

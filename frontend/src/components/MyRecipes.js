@@ -4,13 +4,23 @@ import { Link } from 'react-router-dom';
 
 
 function MyRecipes() {
+    console.log("MyRecipes component rendered");  // Log here
+
     const [recipes, setRecipes] = useState([]);
 
     useEffect(() => {
+        console.log("MyRecipes component loaded");
+
         async function fetchMyRecipes() {
             const token = localStorage.getItem('access');
+            if (!token) {
+                console.error('No token found in local storage');
+                return;
+            }
+
             try {
-                const data = await getMyRecipes(token)
+                const data = await getMyRecipes();
+                console.log("Fetched data:", data);
                 setRecipes(data);
             } catch (error) {
                 console.error('Error fetching user recipes:', error);
@@ -32,7 +42,7 @@ function MyRecipes() {
 
     return (
         <div className='myrecipe-container'>
-            <h2>your delicious recipe contributions</h2>
+            <h2>YOUR DELICIOUS RECIPE CONTRIBUTIONS</h2>
             <div className="myrecipe-container">
                 {recipes.map((recipe) => (
                     <div className="card card-custom" key={recipe.id}>

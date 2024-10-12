@@ -5,8 +5,18 @@ import { refreshToken, getAuthHeader } from './auth';
 const API_URL = process.env.REACT_APP_API_URL;
 
 const apiClient = axios.create({
-    baseURL: API_URL,
-    headers: getAuthHeader()
+    baseURL: API_URL
+});
+
+// Add a request interceptor to add token before each request
+apiClient.interceptors.request.use((config) => {
+    const token = localStorage.getItem('access'); // Fetch token from localStorage
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;  // Set token in headers
+    }
+    return config;
+}, (error) => {
+    return Promise.reject(error);
 });
 
 apiClient.interceptors.response.use(
@@ -47,6 +57,22 @@ export const getRecipe = async (id) => {
     return response.data;
 }
 
+export const getCuisines = async () => {
+    const response = await apiClient.get(`api/cuisines/`);
+    return response.data;
+}
+
+export const getRecipesByCuisine = async (cuisineId) => {
+    try {
+        const response = await apiClient.get(`recipes/?cuisines=${cuisineId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching recipes by cuisine:', error);
+        return []; // Return an empty array on error
+    }
+
+}
+
 // Get recipes user posted
 export const getMyRecipes = async (token) => {
     const response = await apiClient.get('/my-recipes/');
@@ -54,12 +80,12 @@ export const getMyRecipes = async (token) => {
 }
 
 export const deleteRecipe = async (id) => {
-    const response = await apiClient.delete(`/recipes/${id}/`);
+    const response = await apiClient.delete(`recipes/${id}/`);
     return response.data;
 };
 
 export const updateRecipe = async (id, data) => {
-    const response = await apiClient.put(`/recipes/${id}/`, data, {
+    const response = await apiClient.put(`recipes/${id}/`, data, {
         headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${localStorage.getItem('access')}`,

@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
+
 function Register() {
     const [formData, setFormData] = useState({
         username: '',
@@ -50,7 +52,7 @@ function Register() {
 
     return (
         <div className='register-container'>
-            <h2>hi chef, thank you for joining!</h2>
+            <h2>HI CHEF, THANK YOU FOR JOINING!</h2>
             {message && <p style={{ color: 'green' }}>{message}</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={onSubmit}>

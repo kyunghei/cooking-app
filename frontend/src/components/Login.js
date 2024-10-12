@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
 
 function Login() {
     const navigate = useNavigate();
@@ -12,6 +13,7 @@ function Login() {
     });
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const { username, password } = formData;
 
@@ -21,22 +23,25 @@ function Login() {
 
     async function onSubmit(e) {
         e.preventDefault();
+        setLoading(true);
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login/`, formData);
             localStorage.setItem('access', response.data.access);
             localStorage.setItem('refresh', response.data.refresh);
             setMessage('Login successful!');
             setError('');
+            setLoading(false);
             navigate('/');
         } catch (err) {
             setError('Login failed.');
             setMessage('');
+            setLoading(false);
         }
     }
 
     return (
         <div className="login-container">
-            <h2>welcome back chef!</h2>
+            <h2>WELCOME BACK CHEF!</h2>
             {message && <p style={{ color: 'green' }}>{message}</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={onSubmit}>
@@ -56,7 +61,13 @@ function Login() {
                     placeholder="Password"
                     required
                 />
-                <button type="submit" >Login</button>
+                {loading ? (
+                    <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                ) : (
+                    <button type="submit" >Login</button>
+                )}
             </form>
             <div>
                 New? <Link to='/register'>Register Here</Link>

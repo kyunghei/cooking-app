@@ -35,7 +35,7 @@ function Navbar() {
                     <div><h1>egg-cellent</h1></div>
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a className="btn btn-sm btn-outline-secondary" type="button" href='/'>Home</a>
+                            <Link className="btn btn-sm btn-outline-secondary" to="/">Home</Link>
                         </li>
                         <li className="nav-item">
                             <button className="btn btn-sm btn-outline-secondary" type="button" onClick={handleAddRecipe}>Add Recipe</button>
@@ -46,17 +46,17 @@ function Navbar() {
                                     Account
                                 </button>
                                 <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="/my-recipes">My Recipes</a></li>
+                                    <li><Link className="dropdown-item" to="/my-recipes/">My Recipes</Link></li>
                                     <li><button className="dropdown-item" onClick={handleLogout}>Logout</button></li>
                                 </ul>
                             </li>
                         ) : (
                             <>
                                 <li className="nav-item">
-                                    <button onClick={() => navigate('/login')} className="btn btn-sm btn-outline-secondary">Login</button>
+                                    <button onClick={() => navigate('/login/')} className="btn btn-sm btn-outline-secondary">Login</button>
                                 </li>
                                 <li className="nav-item">
-                                    <button onClick={() => navigate('/register')} className="btn btn-sm btn-outline-secondary">Register</button>
+                                    <button onClick={() => navigate('/register/')} className="btn btn-sm btn-outline-secondary">Register</button>
                                 </li>
                             </>
 

@@ -52,6 +52,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -67,6 +69,9 @@ MIDDLEWARE = [
 
 # Allow all origins (for development purposes)
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_HEADERS = (list(default_headers) + [
+    'Authorization',  # Add the Authorization header to allowed headers
+])
 
 ROOT_URLCONF = 'cookingproject.urls'
 
@@ -202,3 +207,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+django_heroku.settings(locals())
