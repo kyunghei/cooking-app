@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useNavigate, Link } from 'react-router-dom';
+=======
+import { useNavigate } from 'react-router-dom';
+>>>>>>> 2d248c21f5b12fe7037d539589dacb5e5fa4d68b
 import React from 'react';
 import '../App.css'
 

@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import axios from 'axios';
 import { getAuthHeader, refreshToken } from '../services/auth';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
+=======
+import { addRecipe } from '../services/api';
+>>>>>>> 2d248c21f5b12fe7037d539589dacb5e5fa4d68b
 
 function AddRecipe() {
     const [formData, setFormData] = useState({
