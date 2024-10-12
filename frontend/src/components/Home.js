@@ -1,51 +1,103 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getRecipes, searchRecipes } from '../services/api';
+import { getRecipes, getCuisines, getRecipesByCuisine } from '../services/api';
 import '../App.css'
+
 
 function Home() {
 
     const [recipes, setRecipes] = useState([]);
-    const [query, setQuery] = useState('');
+    const [cuisines, setCuisines] = useState([]);
+    const [selectedCuisine, setSelectedCuisine] = useState('');
 
+    // Fetch all recipes and cuisines on component mount
     useEffect(() => {
-        async function fetchRecipes() {
-            if (query) {
-                const data = await searchRecipes(query);
-                setRecipes(data);
-            } else {
-                const data = await getRecipes();
-                setRecipes(data);
-            }
-        };
-        fetchRecipes();
-    }, [query]);
+        async function fetchInitialData() {
+            const allRecipes = await getRecipes();
+            setRecipes(allRecipes);
 
-    const defaultImage = `/static/logo.jpg`;
+            const allCuisines = await getCuisines();
+            setCuisines(allCuisines);
+        };
+        fetchInitialData();
+    }, []);
+
+    // Fetch filtered recipes based on selected cuisine
+    useEffect(() => {
+        async function fetchFilteredRecipes(cuisine = '') {
+            const filteredRecipes = await getRecipesByCuisine(cuisine);
+            console.log('Fetched recipes by cuisine:', filteredRecipes); // Log the response to check
+            setRecipes(Array.isArray(filteredRecipes) ? filteredRecipes : []);
+        }
+
+        if (selectedCuisine) {
+            fetchFilteredRecipes(selectedCuisine);
+        } else {
+            // If no cuisine is selected, fetch all recipes
+            async function fetchAllRecipes() {
+                const allRecipes = await getRecipes();
+                setRecipes(allRecipes);
+            }
+            fetchAllRecipes();
+        }
+    }, [selectedCuisine]);
+
+    // Handle when cuisine selection changes
+    const handleCuisineChange = (e) => {
+        const selectedCuisineId = e.target.value;
+        setSelectedCuisine(selectedCuisineId);
+    };
+
+    const defaultImage = `/media/recipe_images/logo.jpg`;
 
     return (
         <div className="recipe-body">
-            <div className="search-container">
-                <h2>{query ? 'Search Results' : 'All Recipes'}</h2>
-                <input className="form-control mr-sm-2" type="text" placeholder="Search recipe..." value={query} onChange={(e) => setQuery(e.target.value)} />
+            <h2>All Recipes</h2>
+            <div className="dropdown my-4">
+                <button className="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {selectedCuisine ? cuisines.find(c => c.id === parseInt(selectedCuisine))?.name : "Filter by Cuisine"}
+                </button>
+                <ul className="dropdown-menu">
+                    <li>
+                        <button className="dropdown-item" value="" onClick={() => handleCuisineChange({ target: { value: '' } })}>
+                            All Cuisines
+                        </button>
+                    </li>
+                    {cuisines.map((cuisine) => (
+                        <li key={cuisine.id}>
+                            <button className="dropdown-item" value={cuisine.id} onClick={() => handleCuisineChange({ target: { value: cuisine.id } })}>
+                                {cuisine.name}
+                            </button>
+                        </li>
+                    ))}
+                </ul>
             </div>
-
             <div className="recipe-container">
-                {recipes.map((recipe) => (
-                    <div className="card card-custom" key={recipe.id}>
-                        <div className="card-body">
-                            <img src={recipe.image || defaultImage} className="card-img-top" alt={recipe.title}></img>
+                {recipes.length > 0 ? (
+                    recipes.map((recipe) => (
+                        <div className="card card-custom" key={recipe.id}>
                             <div className="card-body">
-                                <h5 className="card-title">{recipe.title}</h5>
-                                <p className="card-text">{recipe.cusine}</p>
-                                <Link to={`/recipes/${recipe.id}`} className="btn btn-sm btn-outline-secondary">View Recipe</Link>
+                                <img
+                                    src={recipe.image ? recipe.image : defaultImage}
+                                    className="card-img-top"
+                                    alt={recipe.title || 'default'}
+                                />
+                                <div className="card-body">
+                                    <h5 className="card-title">{recipe.title}</h5>
+                                    <p className="card-text">{recipe.cuisine}</p>
+                                    <Link to={`/recipes/${recipe.id}`} className="btn btn-sm btn-outline-secondary">
+                                        View Recipe
+                                    </Link>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                ) : (
+                    <p>No recipes found.</p>
+                )}
             </div>
 
-        </div>
+        </div >
     )
 }
 

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import React from 'react';
 import '../App.css'
 
@@ -26,7 +26,7 @@ function Navbar() {
         <nav className="navbar navbar-expand-lg  nav-custom">
             <div className="container-fluid" >
                 <a className="navbar-brand" href="/">
-                    <img src={`${process.env.PUBLIC_URL}/static/logo.jpg`} alt="Logo" width="150px" className="d-inline-block align-text-top"></img>
+                    <img src={`/static/images/logo.jpg`} alt="Logo" width="150px" className="d-inline-block align-text-top"></img>
                 </a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -35,7 +35,7 @@ function Navbar() {
                     <div><h1>egg-cellent</h1></div>
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a className="btn btn-sm btn-outline-secondary" type="button" href='/'>Home</a>
+                            <Link className="btn btn-sm btn-outline-secondary" to="/">Home</Link>
                         </li>
                         <li className="nav-item">
                             <button className="btn btn-sm btn-outline-secondary" type="button" onClick={handleAddRecipe}>Add Recipe</button>
@@ -46,17 +46,17 @@ function Navbar() {
                                     Account
                                 </button>
                                 <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="/my-recipes">My Recipes</a></li>
+                                    <li><Link className="dropdown-item" to="/my-recipes/">My Recipes</Link></li>
                                     <li><button className="dropdown-item" onClick={handleLogout}>Logout</button></li>
                                 </ul>
                             </li>
                         ) : (
                             <>
                                 <li className="nav-item">
-                                    <button onClick={() => navigate('/login')} className="btn btn-sm btn-outline-secondary">Login</button>
+                                    <button onClick={() => navigate('/login/')} className="btn btn-sm btn-outline-secondary">Login</button>
                                 </li>
                                 <li className="nav-item">
-                                    <button onClick={() => navigate('/register')} className="btn btn-sm btn-outline-secondary">Register</button>
+                                    <button onClick={() => navigate('/register/')} className="btn btn-sm btn-outline-secondary">Register</button>
                                 </li>
                             </>
 
@@ -66,7 +66,7 @@ function Navbar() {
                 </div>
 
             </div>
-            <img src={`${process.env.PUBLIC_URL}/static/divider.jpg`} alt='divider' height='50px' width='70%'></img>
+            <img src={`/static/images/divider.jpg`} alt='divider' height='50px' width='70%'></img>
         </nav >
     )
 }

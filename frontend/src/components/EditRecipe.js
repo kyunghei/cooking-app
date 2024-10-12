@@ -64,7 +64,7 @@ function EditRecipe() {
 
     return (
         <div className='edit-recipe-container'>
-            <h2>edit your {formData.title} recipe</h2>
+            <h2>EDIT YOUR  {formData.title.toUpperCase()}  RECIPE</h2>
             <form onSubmit={onSubmit} encType="multipart/form-data">
                 <div className='input-container'>
                     <label htmlFor="title">Recipe Title <span style={{ color: 'red' }}>*</span></label>

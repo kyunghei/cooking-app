@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { addRecipe } from '../services/api';
+import axios from 'axios';
+import { getAuthHeader, refreshToken } from '../services/auth';
+
+const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
 
 function AddRecipe() {
     const [formData, setFormData] = useState({
@@ -40,12 +43,29 @@ function AddRecipe() {
             data.append('image', image);
         }
 
-        const result = await addRecipe(data);
-        if (result.success) {
-            setMessage(result.message);
+        try {
+            const response = await axios.post(`${API_URL}recipes/`, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setMessage('Recipe added successfully!');
             setError('');
-        } else {
-            setError(result.message);
+        } catch (err) {
+            if (err.response.status === 401) {
+                try {
+                    await refreshToken();
+                    let headers = getAuthHeader();
+                    let response = await axios.post(`${API_URL}api/recipes/`, formData, { headers });
+                    setMessage('Recipe added successfully!');
+                    setError('');
+                } catch (refreshError) {
+                    setError('Error adding recipe.');
+                    setMessage('');
+                    console.error(refreshError);
+                }
+            }
+            setError('Error adding recipe.');
             setMessage('');
         }
 
@@ -54,7 +74,7 @@ function AddRecipe() {
 
     return (
         <div className="add-recipe-container">
-            <h2>share a recipe here, chef!</h2>
+            <h2>SHARE A RECIPE, CHEF!</h2>
             <p>We're on the hunt for egg-cellent recipes to add to our already amazing database.</p>
             <p></p>
             {message && <p style={{ color: 'green' }}>{message}</p>}

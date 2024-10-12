@@ -12,9 +12,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import os
-import django_heroku
 import dj_database_url
+import django_heroku
 from decouple import config
+from corsheaders.defaults import default_headers
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,12 +28,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['cooking-app-demo-35a074f514f1.herokuapp.com/',
+                 '18.190.24.46', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -52,21 +54,23 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware'
-
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 
 ]
 
 # Allow all origins (for development purposes)
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_HEADERS = (list(default_headers) + [
+    'Authorization',  # Add the Authorization header to allowed headers
+])
 
 ROOT_URLCONF = 'cookingproject.urls'
 
@@ -91,18 +95,17 @@ WSGI_APPLICATION = 'cookingproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
+# Heroku Database Config
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
-        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+        'default': dj_database_url.config(conn_max_age=600)
     }
 else:
+    # Use the local database during development
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+        'default': dj_database_url.config(default=config('DATABASE_URL'))
     }
-
 
 # Activate django-heroku
 django_heroku.settings(locals())
@@ -181,12 +184,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    os.path.abspath(os.path.join(
-        BASE_DIR, '..', 'frontend', 'build', 'static')),
-    os.path.abspath(os.path.join(BASE_DIR, '..', 'frontend', 'build')),
-]
-# Simplified static file serving.
-# https://whitenoise.readthedocs.io/en/latest/
+    os.path.join(BASE_DIR, '..', 'frontend', 'build', 'static')]
+
+# Enable Whitenoise to serve static files
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 print("Base directory:", BASE_DIR)
@@ -202,3 +202,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+django_heroku.settings(locals())
