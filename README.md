@@ -12,7 +12,8 @@ Hosted on [Heroku](https://cooking-app-demo-35a074f514f1.herokuapp.com/) for a l
 ## ✨ Demo
 Check out the app in action! 🎥
 ### Homepage
-![Home Page](eggcellent-homepage.png)
+<img src="/eggcellent-homepage.png" alt="App Screenshot" width="400"/>
+
 ### Register & Login
 ### Add Recipe
 ### Filter by Cuisine
