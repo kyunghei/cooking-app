@@ -17,11 +17,28 @@ function Register() {
     const { username, email, password } = formData;
 
     function onChange(e) {
-        setFormData({ ...formData, [e.target.name]: e.target.value })
+        const { name, value } = e.target;
+
+        // Live validation for username length
+        if (name === "username") {
+            if (value.length < 3 || value.length > 20) {
+                setError("Username must be between 3 and 20 characters.");
+            } else {
+                setError(""); // Clear error if valid
+            }
+        }
+        setFormData({ ...formData, [name]: value })
     };
 
     async function onSubmit(e) {
         e.preventDefault();
+
+        // Username validation must be between 3 to 20 char
+        if (username.length < 3 || username.length > 20) {
+            setError("Username must be between 3 and 20 characters.");
+            return;
+        }
+
         try {
             const response = await axios.post(`${API_URL}auth/register/`, formData);
             setMessage('Registration successful!');
@@ -54,10 +71,11 @@ function Register() {
         <div className='register-container'>
             <h2>HI CHEF, THANK YOU FOR JOINING!</h2>
             {message && <p style={{ color: 'green' }}>{message}</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
             <form onSubmit={onSubmit}>
                 <input onChange={onChange} value={username} type="text" name="username" placeholder="Username" required>
                 </input>
+                {error && username.length < 3 && <p style={{ color: 'red' }}>{error}</p>}
                 <input onChange={onChange} value={email} type="email" name="email" placeholder="Email" required>
                 </input>
                 <input onChange={onChange} value={password} type="password" name="password" placeholder="Password" required>
