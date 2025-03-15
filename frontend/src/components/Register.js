@@ -27,6 +27,16 @@ function Register() {
                 setError(""); // Clear error if valid
             }
         }
+
+        // Live validation for password length
+        if (name === "password") {
+            if (value.length < 8 || value.length > 20) {
+                setError("Password must be between 8 and 20 characters.");
+            } else {
+                setError(""); // Clear error if valid
+            }
+        }
+        // Update form data state
         setFormData({ ...formData, [name]: value })
     };
 
@@ -36,6 +46,12 @@ function Register() {
         // Username validation must be between 3 to 20 char
         if (username.length < 3 || username.length > 20) {
             setError("Username must be between 3 and 20 characters.");
+            return;
+        }
+
+        // Password validation must be between 8 to 20 char
+        if (password.length < 8 || password.length > 20) {
+            setError("Password must be between 8 and 20 characters.");
             return;
         }
 
@@ -71,11 +87,10 @@ function Register() {
         <div className='register-container'>
             <h2>HI CHEF, THANK YOU FOR JOINING!</h2>
             {message && <p style={{ color: 'green' }}>{message}</p>}
-            {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
+            {error && <p style={{ color: 'red', fontFamily: 'Arial' }}>{error}</p>}
             <form onSubmit={onSubmit}>
                 <input onChange={onChange} value={username} type="text" name="username" placeholder="Username" required>
                 </input>
-                {error && username.length < 3 && <p style={{ color: 'red' }}>{error}</p>}
                 <input onChange={onChange} value={email} type="email" name="email" placeholder="Email" required>
                 </input>
                 <input onChange={onChange} value={password} type="password" name="password" placeholder="Password" required>
@@ -85,7 +100,7 @@ function Register() {
             <div>
                 <Link to='/login'>Already have an account?</Link>
             </div>
-        </div>
+        </div >
 
 
     )
