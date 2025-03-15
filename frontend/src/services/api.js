@@ -2,8 +2,7 @@ import axios from 'axios';
 import { refreshToken, getAuthHeader } from './auth';
 
 
-// const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
-const API_URL = 'http://127.0.0.1:8000/';
+const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
 
 const apiClient = axios.create({
     baseURL: API_URL
