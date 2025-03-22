@@ -46,8 +46,7 @@
 
       .btn:hover,
       .btn:focus {
-        background-color: #5c7061;
-        color: white;
+        background-color: #444;
       }
 
       .dropdown-item {
@@ -144,48 +143,91 @@
   }
 }
 
+/* Base styles for login and register containers */
 .login-container,
 .register-container {
   margin: 30px;
   text-align: center;
-  font-family:
-    "Caveat";
-
-  h2 {
-    font-size: 30px;
-    letter-spacing: 0px;
-  }
-
-  form,
-  p {
-    min-width: 300px;
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-
-    input,
-    button,
-    textarea {
-      margin: 10px 0;
-      font-family: sans-serif;
-      padding: 5px;
-      font-size: .9rem;
-    }
-
-    button {
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      margin: 30px 8px;
-      font-size: 1rem;
-      transition: color 0.3s ease, background-color 0.3s ease;
-      background-color: #5c7061;
-      color: white;
-    }
-  }
-
+  font-family: "Caveat";
 }
+
+/* Headings in the containers */
+.login-container h2,
+.register-container h2 {
+  font-size: 30px;
+  letter-spacing: 0;
+}
+
+/* Form and paragraph styling */
+.login-container form,
+.register-container form,
+.login-container p,
+.register-container p {
+  min-width: 300px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+/* Input, button, and textarea styling within forms */
+.login-container form input,
+.login-container form button,
+.login-container form textarea,
+.register-container form input,
+.register-container form button,
+.register-container form textarea {
+  margin: 10px 0;
+  font-family: sans-serif;
+  padding: 5px;
+  font-size: 0.9rem;
+}
+
+/* Styling for form buttons (excluding the toggle button) */
+.login-container form button,
+.register-container form button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  margin: 30px 8px;
+  font-size: 1rem;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  background-color: #5c7061;
+  color: white;
+}
+
+/* New styling for the password input container */
+.password-input-container {
+  position: relative;
+  text-align: left;
+  /* Override parent's centered text */
+  width: 100%;
+  /* Ensure it takes up full width of the form (400px) */
+}
+
+/* Styling for the "Show Password" toggle button */
+.toggle-password-btn {
+  position: absolute;
+  right: 5px;
+  /* top: 50%; */
+  transform: translateY(-60%);
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #5c7061;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  z-index: 2;
+  /* Ensure it sits above the input text */
+}
+
+.toggle-password-btn:hover {
+  background-color: #444;
+}
+
+
 
 .add-recipe-container,
 .edit-recipe-container {

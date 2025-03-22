@@ -12,6 +12,7 @@ function Register() {
     })
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
+    const [showPassword, setShowPassword] = useState(false); // State for password visibility
 
 
     const { username, email, password } = formData;
@@ -93,8 +94,13 @@ function Register() {
                 </input>
                 <input onChange={onChange} value={email} type="email" name="email" placeholder="Email" required>
                 </input>
-                <input onChange={onChange} value={password} type="password" name="password" placeholder="Password" required>
-                </input>
+                <div className="password-input-container">
+                    <input onChange={onChange} value={password} type={showPassword ? "text" : "password"} name="password" placeholder="Password" required style={{ paddingRight: '140px' }} >
+                    </input>
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="toggle-password-btn">
+                        {showPassword ? "🙈" : "👁"}</button>
+                </div>
+
                 <button type="submit">Register</button>
             </form>
             <div>
