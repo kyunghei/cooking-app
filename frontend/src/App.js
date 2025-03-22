@@ -8,11 +8,14 @@ import Navbar from './components/Navbar'
 import MyRecipes from './components/MyRecipes';
 import AddRecipe from './components/AddRecipe';
 import EditRecipe from './components/EditRecipe';
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <Router>
       <div className="App">
+        <ToastContainer />
+
         <Navbar />
         <Routes>
           <Route exact path="/" element={<Home />} />

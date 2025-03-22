@@ -227,6 +227,14 @@
   background-color: #444;
 }
 
+.error-message {
+  color: red;
+  font-size: .9rem;
+  margin-top: 5px;
+  text-align: left;
+  font-family: Arial, Helvetica, sans-serif;
+  /* Align error message to the left */
+}
 
 
 .add-recipe-container,
