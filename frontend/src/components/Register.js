@@ -75,7 +75,14 @@ function Register() {
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx
                 if (err.response.status === 400) {
-                    toast.error('Validation error: ' + err.response.data.detail);
+                    let errorMessage = err.response.data.detail;
+                    if (!errorMessage && err.response.data.username) {
+                        // If it's an array, join the messages; otherwise use it directly
+                        errorMessage = Array.isArray(err.response.data.username)
+                            ? err.response.data.username.join(' ')
+                            : err.response.data.username;
+                    }
+                    toast.error('Validation error: ' + errorMessage);
                     navigate('/register'); // Redirect to register page on validation error
                 } else if (err.response.status === 500) {
                     toast.error('Server error: Please try again later.');
