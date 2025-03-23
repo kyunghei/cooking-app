@@ -13,7 +13,9 @@ function Register() {
         email: '',
         password: ''
     })
-    const [error, setError] = useState('');
+    const [userError, setUserError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
     const [showPassword, setShowPassword] = useState(false); // State for password visibility
     const navigate = useNavigate();
 
@@ -26,9 +28,9 @@ function Register() {
         // Live validation for username length
         if (name === "username") {
             if (value.length < 3 || value.length > 20) {
-                setError("Username must be between 3 and 20 characters.");
+                setUserError("Username must be between 3 and 20 characters.");
             } else {
-                setError(''); // Clear error if username is valid
+                setUserError(''); // Clear error if username is valid
             }
 
         }
@@ -36,9 +38,9 @@ function Register() {
         // Live validation for password length
         if (name === "password") {
             if (value.length < 8 || value.length > 20) {
-                setError("Password must be between 8 and 20 characters.");
+                setPasswordError("Password must be between 8 and 20 characters.");
             } else {
-                setError(''); // Clear error if username is valid
+                setPasswordError(''); // Clear error if password is valid
             }
 
         }
@@ -107,7 +109,9 @@ function Register() {
         <div className='register-container'>
             <h2>HI CHEF, THANK YOU FOR JOINING!</h2>
 
-            {error && <p className="error-message">{error}</p>}
+            {userError && <p className="error-message">{userError}</p>}
+            {passwordError && <p className="error-message">{passwordError}</p>}
+
             <form onSubmit={onSubmit}>
                 <input onChange={onChange} value={username} type="text" name="username" placeholder="Username" required>
                 </input>
