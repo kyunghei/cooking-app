@@ -1,5 +1,13 @@
 from django.db import models  # type: ignore
-from django.contrib.auth.models import User  # type: ignore
+from django.contrib.auth.models import AbstractUser  # type: ignore
+
+
+class CustomUser(AbstractUser):
+    # Extend the default User model if needed
+    email = models.EmailField(unique=True)
+
+    def __str__(self):
+        return self.username
 
 
 class Cuisine(models.Model):
@@ -14,7 +22,7 @@ class Cuisine(models.Model):
 class Recipe(models.Model):
     title = models.CharField(max_length=100)
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='recipes')
+        'api.CustomUser', on_delete=models.CASCADE, related_name='recipes')
     ingredients = models.TextField()
     cuisines = models.ManyToManyField(Cuisine, related_name='recipes')
     instruction = models.TextField()

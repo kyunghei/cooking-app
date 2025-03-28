@@ -1,6 +1,10 @@
 from rest_framework import serializers  # type: ignore
-from .models import User, Cuisine, Recipe
+from rest_framework.validators import UniqueValidator
+from .models import Cuisine, Recipe
 from django.contrib.auth import authenticate
+from django.contrib.auth import get_user_model
+
+User = get_user_model()  # Custom user model if needed
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -36,6 +40,11 @@ class LoginSerializer(serializers.Serializer):
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(
+        required=True,
+
+    )
+
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'password')
@@ -43,7 +52,15 @@ class RegisterSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
 
+    def validate_email(self, value):
+        value = value.lower()
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError(
+                "An account with this email already exists.")
+        return value
+
     def create(self, validated_data):
+        validated_data['email'] = validated_data['email'].lower()
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],

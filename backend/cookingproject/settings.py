@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'django_filters',
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
-    'storages'
+    'storages',
 ]
 # AWS S3 settings
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
@@ -212,5 +212,8 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 # MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Use your custom user model if you have one
+AUTH_USER_MODEL = 'api.CustomUser'
 
 django_heroku.settings(locals())
