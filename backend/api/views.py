@@ -12,6 +12,7 @@ from django_filters.rest_framework import DjangoFilterBackend  # type: ignore
 from django.shortcuts import render
 from rest_framework.exceptions import PermissionDenied
 from django.db.models import Q
+from rest_framework.permissions import AllowAny
 
 
 def index(request):
@@ -22,6 +23,17 @@ class RegisterAPI(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
     permission_classes = [permissions.AllowAny]
+
+
+class CheckEmailAPIView(APIView):
+    permission_classes = [AllowAny]  # Allow unauthenticated access
+
+    def get(self, request, *args, **kwargs):
+        # Retrieve the email from query parameters, strip spaces, and lowercase it
+        email = request.query_params.get('email', '').strip().lower()
+        exists = User.objects.filter(email=email).exists()
+        # Return a JSON response indicating whether the email exists
+        return Response({'exists': exists})
 
 
 class LoginAPI(APIView):

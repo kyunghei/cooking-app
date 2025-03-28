@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
+// const API_URL = 'http://127.0.0.1:8000/';
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -17,6 +18,8 @@ function Register() {
     const [passwordError, setPasswordError] = useState('');
 
     const [showPassword, setShowPassword] = useState(false); // State for password visibility
+    const [emailError, setEmailError] = useState('');
+
     const navigate = useNavigate();
 
 
@@ -48,20 +51,34 @@ function Register() {
         setFormData({ ...formData, [name]: value })
     };
 
+    const handleEmailChange = async (e) => {
+        const newEmail = e.target.value.trim().toLowerCase();
+        setFormData((prev) => ({ ...prev, email: newEmail }));
+
+
+        try {
+            // Call your API endpoint that checks if the email exists
+            const response = await axios.get(`${API_URL}auth/check_email/?email=${newEmail}`);
+            if (response.data.exists) {
+                setEmailError("An account with this email already exists.");
+            } else {
+                setEmailError("");
+            }
+        } catch (err) {
+            console.error("Error checking email:", err);
+            setEmailError(""); // or set a specific error message if you prefer
+        }
+    };
+
     async function onSubmit(e) {
         e.preventDefault();
 
-        // Username validation must be between 3 to 20 char
-        if (username.length < 3 || username.length > 20) {
-            toast.error("Username must be between 3 and 20 characters.");
+        // Check for errors before submitting
+        if (userError || passwordError || emailError) {
+            toast.error("Please fix the errors in the form.");
             return;
         }
 
-        // Password validation must be between 8 to 20 char
-        if (password.length < 8 || password.length > 20) {
-            toast.error("Password must be between 8 and 20 characters.");
-            return;
-        }
 
         try {
             const response = await axios.post(`${API_URL}auth/register/`, formData);
@@ -111,11 +128,12 @@ function Register() {
 
             {userError && <p className="error-message">{userError}</p>}
             {passwordError && <p className="error-message">{passwordError}</p>}
+            {emailError && <p className="error-message">{emailError}</p>}
 
             <form onSubmit={onSubmit}>
                 <input onChange={onChange} value={username} type="text" name="username" placeholder="Username" required>
                 </input>
-                <input onChange={onChange} value={email} type="email" name="email" placeholder="Email" required>
+                <input onChange={handleEmailChange} value={email} type="email" name="email" placeholder="Email" required>
                 </input>
                 <div className="password-input-container">
                     <input onChange={onChange} value={password} type={showPassword ? "text" : "password"} name="password" placeholder="Password" required style={{ paddingRight: '140px' }} >

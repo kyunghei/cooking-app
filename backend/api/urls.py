@@ -2,7 +2,7 @@ from django.urls import path, re_path  # type: ignore
 from .views import (
     RegisterAPI, CuisineListCreateView,
     RecipeListCreateView, RecipeDetailView, LoginAPI, MyRecipesAPI,
-    RecipeUpdateDeleteView
+    RecipeUpdateDeleteView, CheckEmailAPIView
 )
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -18,9 +18,10 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path("auth/register/", RegisterAPI.as_view(), name='register'),
     path("auth/login/", LoginAPI.as_view(), name='login'),
+    path("auth/check_email/", CheckEmailAPIView.as_view(), name='check-email'),
+
     path('api/cuisines/', CuisineListCreateView.as_view(),
          name='cuisine-list-create'),
-    path('', views.index, name='index'),  # Add this line for the homepage
 
     path('recipes/', RecipeListCreateView.as_view(), name='recipe-list-create'),
     path('recipes/<int:pk>/', RecipeDetailView.as_view(), name='recipe-detail'),
@@ -30,6 +31,7 @@ urlpatterns = [
     path('token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
     path('recipes/<int:pk>/update/',
          RecipeUpdateDeleteView.as_view(), name='recipe-detail'),
+    path('', views.index, name='index'),  # Add this line for the homepage
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
