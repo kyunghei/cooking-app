@@ -2,7 +2,8 @@ from rest_framework import generics, filters, permissions  # type: ignore
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import User, Cuisine, Recipe
+from .models import Cuisine, Recipe
+from django.contrib.auth import get_user_model
 from .serializers import (
     LoginSerializer, RegisterSerializer, CuisineSerializer,
     RecipeSerializer
@@ -13,6 +14,8 @@ from django.shortcuts import render
 from rest_framework.exceptions import PermissionDenied
 from django.db.models import Q
 
+User = get_user_model()
+
 
 def index(request):
     return render(request, 'index.html')
@@ -22,6 +25,13 @@ class RegisterAPI(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
     permission_classes = [permissions.AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            print("Serializer errors:", serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return super().create(request, *args, **kwargs)
 
 
 class LoginAPI(APIView):
