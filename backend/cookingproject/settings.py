@@ -213,7 +213,5 @@ MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 # MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Use your custom user model if you have one
-AUTH_USER_MODEL = 'api.CustomUser'
 
 django_heroku.settings(locals())

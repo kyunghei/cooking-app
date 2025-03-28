@@ -1,5 +1,4 @@
 from rest_framework import serializers  # type: ignore
-from rest_framework.validators import UniqueValidator
 from .models import Cuisine, Recipe
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
