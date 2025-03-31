@@ -5,8 +5,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-// const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
-const API_URL = 'http://127.0.0.1:8000/';
+const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
+// const API_URL = 'http://127.0.0.1:8000/';
 
 function Register() {
     const [formData, setFormData] = useState({
