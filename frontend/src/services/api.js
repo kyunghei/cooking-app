@@ -4,13 +4,15 @@ import { refreshToken, getAuthHeader } from './auth';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
 
-const apiClient = axios.create({
+export const apiClient = axios.create({
     baseURL: API_URL
 });
 
 // Add a request interceptor to add token before each request
 apiClient.interceptors.request.use((config) => {
     const token = localStorage.getItem('access'); // Fetch token from localStorage
+    console.log("Interceptor attaching token:", token);
+
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;  // Set token in headers
     }
@@ -113,3 +115,4 @@ export const addRecipe = async (data) => {
         return { success: false, message: 'Error adding recipe.' };
     }
 };
+

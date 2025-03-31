@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getMyRecipes, deleteRecipe } from '../services/api';
+import { getMyRecipes, deleteRecipe, apiClient } from '../services/api';
 import { Link } from 'react-router-dom';
 
 
@@ -7,6 +7,16 @@ function MyRecipes() {
     console.log("MyRecipes component rendered");  // Log here
 
     const [recipes, setRecipes] = useState([]);
+
+    // Use an effect to set the Authorization header from localStorage
+    useEffect(() => {
+        const token = localStorage.getItem('access'); // ensure the key matches your storage
+        if (token) {
+            // Set the default header on your Axios instance
+            apiClient.defaults.headers['Authorization'] = `Bearer ${token}`;
+            console.log("Authorization header set in MyRecipes component:", apiClient.defaults.headers['Authorization']);
+        }
+    }, []);
 
     useEffect(() => {
         console.log("MyRecipes component loaded");
