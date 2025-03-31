@@ -5,8 +5,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
-// const API_URL = 'http://127.0.0.1:8000/';
+// const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
+const API_URL = 'http://127.0.0.1:8000/';
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -58,7 +58,7 @@ function Register() {
 
         try {
             // Call your API endpoint that checks if the email exists
-            const response = await axios.get(`${API_URL}auth/check_email/?email=${newEmail}`);
+            const response = await axios.get(`${API_URL}api/auth/check_email/?email=${newEmail}`);
             if (response.data.exists) {
                 setEmailError("An account with this email already exists.");
             } else {
@@ -81,7 +81,7 @@ function Register() {
 
 
         try {
-            const response = await axios.post(`${API_URL}auth/register/`, formData);
+            const response = await axios.post(`${API_URL}api/auth/register/`, formData);
             if (response.status === 201) {
                 // Registration successful
                 toast.success('Registration successful! Please log in.');

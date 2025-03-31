@@ -4,7 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
+// const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
+const API_URL = 'http://127.0.0.1:8000/';
 
 function Login() {
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ function Login() {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.post(`${API_URL}auth/login/`, formData);
+            const response = await axios.post(`${API_URL}api/auth/login/`, formData);
             localStorage.setItem('access', response.data.access);
             localStorage.setItem('refresh', response.data.refresh);
             toast.success('Login successful!');

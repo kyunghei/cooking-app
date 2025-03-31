@@ -11,7 +11,6 @@ from rest_framework_simplejwt.views import (
 )
 from django.conf import settings
 from django.conf.urls.static import static
-from . import views
 from django.views.generic import TemplateView
 
 # The API URLs are now determined automatically by the router
@@ -20,7 +19,7 @@ urlpatterns = [
     path("auth/login/", LoginAPI.as_view(), name='login'),
     path("auth/check_email/", CheckEmailAPIView.as_view(), name='check-email'),
 
-    path('api/cuisines/', CuisineListCreateView.as_view(),
+    path('cuisines/', CuisineListCreateView.as_view(),
          name='cuisine-list-create'),
 
     path('recipes/', RecipeListCreateView.as_view(), name='recipe-list-create'),
@@ -31,7 +30,6 @@ urlpatterns = [
     path('token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
     path('recipes/<int:pk>/update/',
          RecipeUpdateDeleteView.as_view(), name='recipe-detail'),
-    path('', views.index, name='index'),  # Add this line for the homepage
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

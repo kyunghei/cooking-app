@@ -14,7 +14,8 @@ function Home() {
     useEffect(() => {
         async function fetchInitialData() {
             const allRecipes = await getRecipes();
-            setRecipes(allRecipes);
+            console.log("Fetched recipes:", allRecipes)
+            setRecipes(Array.isArray(allRecipes) ? allRecipes : []);
 
             const allCuisines = await getCuisines();
             setCuisines(allCuisines);
