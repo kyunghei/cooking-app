@@ -31,7 +31,7 @@ function Login() {
             const response = await axios.post(`${API_URL}api/auth/login/`, formData);
             localStorage.setItem('access', response.data.access);
             localStorage.setItem('refresh', response.data.refresh);
-            toast.success('Login successful!');
+            toast.success('Login successfu!');
             setLoading(false);
             navigate('/');
         } catch (err) {

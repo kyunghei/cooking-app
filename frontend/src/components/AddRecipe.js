@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getAuthHeader, refreshToken } from '../services/auth';
 import { getCuisines } from '../services/api';
+import { toast } from 'react-toastify';
 
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
@@ -19,8 +20,6 @@ function AddRecipe() {
         image: null
     });
     const [cuisineOptions, setCuisineOptions] = useState([]);
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
 
     const { title, ingredients, instruction, prep_time, cook_time, serving_size, cuisine_id, image } = formData;
 
@@ -34,7 +33,7 @@ function AddRecipe() {
             })
             .catch(err => {
                 console.error('Error fetching cuisine types:', err);
-                setError('Could not load cuisine options');
+                toast.error('Could not load cuisine options');
             });
     }, []);
 
@@ -72,24 +71,20 @@ function AddRecipe() {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            setMessage('Recipe added successfully!');
-            setError('');
+            toast.success('Recipe added successfully!');
         } catch (err) {
             if (err.response.status === 401) {
                 try {
                     await refreshToken();
                     let headers = getAuthHeader();
                     let response = await axios.post(`${API_URL}api/recipes/`, formData, { headers });
-                    setMessage('Recipe added successfully!');
-                    setError('');
+                    toast.success('Recipe added successfully!');
                 } catch (refreshError) {
-                    setError('Error adding recipe.');
-                    setMessage('');
+                    toast.error('Error adding recipe.');
                     console.error(refreshError);
                 }
             }
-            setError('Error adding recipe.');
-            setMessage('');
+            toast.error('Error adding recipe.');
         }
 
 
@@ -100,8 +95,6 @@ function AddRecipe() {
             <h2>SHARE A RECIPE, CHEF!</h2>
             <p>We're on the hunt for egg-cellent recipes to add to our already amazing database.</p>
             <p></p>
-            {message && <p style={{ color: 'green' }}>{message}</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={onSubmit} encType="multipart/form-data">
                 <div className='input-container'>
                     <label htmlFor="title">Recipe Title <span style={{ color: 'red' }}>*</span></label>
