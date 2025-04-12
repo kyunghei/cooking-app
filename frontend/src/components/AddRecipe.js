@@ -63,8 +63,21 @@ function AddRecipe() {
         data.append('cook_time', cook_time);
         data.append('serving_size', serving_size);
         data.append('cuisine_id', cuisine_id);
+
+        // Check if the user uploaded an image; if not, load the default image.
         if (image) {
             data.append('image', image);
+        } else {
+            try {
+                const defaultImageUrl = '/media/recipe_images/default-image.png'; // Adjust the path as necessary
+                const response = await fetch(defaultImageUrl);
+                const blob = await response.blob();
+                const file = new File([blob], 'default-image.png', { type: blob.type });
+                data.append('image', file);
+            } catch (error) {
+                console.error('Error loading default image:', error);
+                toast.error('Error loading default image. Please upload an image.');
+            }
         }
 
         try {
