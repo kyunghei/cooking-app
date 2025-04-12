@@ -16,7 +16,9 @@ class Recipe(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='recipes')
     ingredients = models.TextField()
-    cuisines = models.ManyToManyField(Cuisine, related_name='recipes')
+    cuisine = models.ForeignKey(
+        Cuisine, on_delete=models.SET_NULL, null=True, blank=True, related_name='recipes'
+    )
     instruction = models.TextField()
     prep_time = models.IntegerField(help_text="Prep time in minutes")
     cook_time = models.IntegerField(help_text="Cooking time in minutes")

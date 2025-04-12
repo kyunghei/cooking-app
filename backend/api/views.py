@@ -81,8 +81,8 @@ class RecipeListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend,
                        filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['author', 'cuisines']
-    search_fields = ['title', 'cuisines__name']
+    filterset_fields = ['author', 'cuisine']
+    search_fields = ['title', 'cuisine__name']
     ordering_fields = ['created_at', 'updated_at']
 
     def get_queryset(self):

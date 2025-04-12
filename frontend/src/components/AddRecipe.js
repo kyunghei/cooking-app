@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getAuthHeader, refreshToken } from '../services/auth';
+import { getCuisines } from '../services/api';
+
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
 // const API_URL = 'http://127.0.0.1:8000/';
@@ -13,17 +15,36 @@ function AddRecipe() {
         prep_time: '',
         cook_time: '',
         serving_size: '',
-        cuisines: [],
+        cuisine_id: '',
         image: null
     });
+    const [cuisineOptions, setCuisineOptions] = useState([]);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
 
-    const { title, ingredients, instruction, prep_time, cook_time, serving_size, cuisines, image } = formData;
+    const { title, ingredients, instruction, prep_time, cook_time, serving_size, cuisine_id, image } = formData;
+
+    // Fetch cuisine options from the API when the component mounts
+    useEffect(() => {
+        getCuisines()
+            .then(data => {
+                // Assuming data is an array of cuisine objects e.g.:
+                // [{ id: 1, name: 'American'}, { id: 2, name: 'Chinese'}, ...]
+                setCuisineOptions(data);
+            })
+            .catch(err => {
+                console.error('Error fetching cuisine types:', err);
+                setError('Could not load cuisine options');
+            });
+    }, []);
 
     function onChange(e) {
-        setFormData({ ...formData, [e.target.name]: e.target.value })
-    };
+        const { name, value } = e.target;
+        // If the field is cuisine_id, convert its value to a number, else use the value as is.
+        const newValue = name === "cuisine_id" ? Number(value) : value;
+        setFormData({ ...formData, [name]: newValue });
+        console.log(name, newValue);
+    }
 
     function onImageChange(e) {
         setFormData({ ...formData, image: e.target.files[0] })
@@ -40,7 +61,7 @@ function AddRecipe() {
         data.append('prep_time', prep_time);
         data.append('cook_time', cook_time);
         data.append('serving_size', serving_size);
-        data.append('cuisines', cuisines);
+        data.append('cuisine_id', cuisine_id);
         if (image) {
             data.append('image', image);
         }
@@ -91,6 +112,17 @@ function AddRecipe() {
                         onChange={onChange}
                         required
                     />
+                </div>
+                <div className='input-container'>
+                    <label htmlFor="cuisine">Cuisine <span style={{ color: 'red' }}>*</span></label>
+                    <select name="cuisine_id" value={formData.cuisine_id} onChange={onChange} required>
+                        <option value="">Select a cuisine</option>
+                        {cuisineOptions.map(cuisineOption => (
+                            <option key={cuisineOption.id} value={cuisineOption.id}>
+                                {cuisineOption.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className='input-container'>
                     <label htmlFor="serving_size">Serving Size <span style={{ color: 'red' }}>*</span></label>

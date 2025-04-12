@@ -20,7 +20,12 @@ class CuisineSerializer(serializers.ModelSerializer):
 
 class RecipeSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
-    cuisines = CuisineSerializer(many=True, read_only=True)
+    cuisine = CuisineSerializer(read_only=True)
+    cuisine_id = serializers.PrimaryKeyRelatedField(
+        queryset=Cuisine.objects.all(),
+        source='cuisine',  # This tells DRF to set the 'cuisine' field on the model
+        write_only=True
+    )
 
     class Meta:
         model = Recipe

@@ -85,7 +85,7 @@ function Home() {
                                 />
                                 <div className="card-body">
                                     <h5 className="card-title">{recipe.title}</h5>
-                                    <p className="card-text">{recipe.cuisine}</p>
+                                    <p className="card-text">{recipe.cuisine ? recipe.cuisine.name : 'N/A'}</p>
                                     <Link to={`/recipes/${recipe.id}`} className="btn btn-sm btn-outline-secondary">
                                         View Recipe
                                     </Link>

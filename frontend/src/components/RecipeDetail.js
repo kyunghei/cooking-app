@@ -34,7 +34,7 @@ function RecipeDetail() {
             <div className='recipe-details-container'>
                 <h1 class="recipe-title">{recipe.title}</h1>
                 <p class="contributor">by: {recipe.author.username}</p>
-
+                <p class="cuisine">Cuisine: {recipe.cuisine ? recipe.cuisine.name : 'N/A'}</p>
                 <p>Serving size: {recipe.serving_size}</p>
                 <p>Preparation time: {recipe.prep_time} minutes</p>
                 <p>Cooking time: {recipe.cook_time} minutes</p>
