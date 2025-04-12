@@ -49,7 +49,6 @@ function Home() {
         setSelectedCuisine(selectedCuisineId);
     };
 
-    const defaultImage = `/media/recipe_images/logo.jpg`;
 
     return (
         <div className="recipe-body">
@@ -79,7 +78,7 @@ function Home() {
                         <div className="card card-custom" key={recipe.id}>
                             <div className="card-body">
                                 <img
-                                    src={recipe.image ? recipe.image : defaultImage}
+                                    src={recipe.image || '/media/recipe_images/default-image.png'}
                                     className="card-img-top"
                                     alt={recipe.title || 'default'}
                                 />
