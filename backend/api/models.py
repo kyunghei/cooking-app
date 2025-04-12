@@ -1,5 +1,8 @@
 from django.db import models  # type: ignore
 from django.contrib.auth.models import User
+from django.conf import settings
+from django.core.files import File
+import os
 
 
 class Cuisine(models.Model):
@@ -26,7 +29,20 @@ class Recipe(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     serving_size = models.IntegerField()
     image = models.ImageField(
-        upload_to='recipe_images/', blank=True, null=True, default='logo.jpg')
+        upload_to='recipe_images/', blank=True, null=True, default='recipe_images/default-image.png')
+
+    def save(self, *args, **kwargs):
+        # If no image is uploaded, assign the default image.
+        if not self.image:
+            # Construct the full path to the default image.
+            default_img_path = os.path.join(
+                settings.MEDIA_ROOT, 'recipes_images', 'default-image.png')
+            if os.path.exists(default_img_path):
+                with open(default_img_path, 'rb') as f:
+                    # Save the default image file under the name "default-img.png".
+                    # You can change this filename if desired.
+                    self.image.save('default-img.png', File(f), save=False)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
