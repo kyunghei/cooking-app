@@ -3,6 +3,7 @@ import axios from 'axios';
 import { getAuthHeader, refreshToken } from '../services/auth';
 import { getCuisines } from '../services/api';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/';
@@ -20,6 +21,7 @@ function AddRecipe() {
         image: null
     });
     const [cuisineOptions, setCuisineOptions] = useState([]);
+    const navigate = useNavigate();
 
     const { title, ingredients, instruction, prep_time, cook_time, serving_size, cuisine_id, image } = formData;
 
@@ -72,6 +74,7 @@ function AddRecipe() {
                 },
             });
             toast.success('Recipe added successfully!');
+            navigate('/');
         } catch (err) {
             if (err.response.status === 401) {
                 try {
