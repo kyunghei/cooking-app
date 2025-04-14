@@ -53,6 +53,37 @@ function AddRecipe() {
 
     async function onSubmit(e) {
         e.preventDefault();
+
+        // Manual validation: Check required fields before forming the data
+        if (!title) {
+            toast.error('Recipe Title is required');
+            return;
+        }
+        if (!ingredients) {
+            toast.error('Please provide the ingredients');
+            return;
+        }
+        if (!instruction) {
+            toast.error('Please provide the instructions');
+            return;
+        }
+        if (!prep_time) {
+            toast.error('Please enter prep time');
+            return;
+        }
+        if (!cook_time) {
+            toast.error('Please enter cooking time');
+            return;
+        }
+        if (!serving_size) {
+            toast.error('Please enter serving size');
+            return;
+        }
+        if (!cuisine_id) {
+            toast.error('Please select a cuisine');
+            return;
+        }
+
         const token = localStorage.getItem('access');
 
         const data = new FormData();
