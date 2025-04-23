@@ -29,7 +29,7 @@ function EditRecipe() {
                 prep_time: data.prep_time,
                 cook_time: data.cook_time,
                 serving_size: data.serving_size,
-                cuisine_id: String(data.cuisine.id),
+                cuisine_id: data.cuisine.id,
                 image: null,
                 imageUrl: data.image
             });
@@ -54,7 +54,10 @@ function EditRecipe() {
 
     function onChange(e) {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        const newValue = name === "cuisine_id"
+            ? Number(value)      // <-- keep it numeric
+            : value;
+        setFormData(prev => ({ ...prev, [name]: newValue }));
     }
 
     function onImageChange(e) {
@@ -100,7 +103,7 @@ function EditRecipe() {
                         required
                     />
                 </div>
-                {cuisineOptions.length > 0 && formData.cuisine_id !== '' && (
+                {cuisineOptions.length > 0 && (
                     <div className='input-container'>
                         <label htmlFor="cuisine">Cuisine <span style={{ color: 'red' }}>*</span></label>
                         <select name="cuisine_id" value={formData.cuisine_id} onChange={onChange} required>
