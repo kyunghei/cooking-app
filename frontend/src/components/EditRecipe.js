@@ -29,7 +29,7 @@ function EditRecipe() {
                 prep_time: data.prep_time,
                 cook_time: data.cook_time,
                 serving_size: data.serving_size,
-                cuisine_id: data.cuisine.id,
+                cuisine_id: String(data.cuisine.id),
                 image: null,
                 imageUrl: data.image
             });
@@ -54,9 +54,7 @@ function EditRecipe() {
 
     function onChange(e) {
         const { name, value } = e.target;
-        const newValue = name === "cuisine_id" ? Number(value) : value;
-        setFormData({ ...formData, [name]: newValue });
-        console.log(name, newValue);
+        setFormData(prev => ({ ...prev, [name]: value }));
     }
 
     function onImageChange(e) {
@@ -102,17 +100,19 @@ function EditRecipe() {
                         required
                     />
                 </div>
-                <div className='input-container'>
-                    <label htmlFor="cuisine">Cuisine <span style={{ color: 'red' }}>*</span></label>
-                    <select name="cuisine_id" value={formData.cuisine_id} onChange={onChange} required>
-                        <option value="" disabled>Select a cuisine</option>
-                        {cuisineOptions.map(cuisineOption => (
-                            <option key={cuisineOption.id} value={cuisineOption.id}>
-                                {cuisineOption.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                {cuisineOptions.length > 0 && formData.cuisine_id !== '' && (
+                    <div className='input-container'>
+                        <label htmlFor="cuisine">Cuisine <span style={{ color: 'red' }}>*</span></label>
+                        <select name="cuisine_id" value={formData.cuisine_id} onChange={onChange} required>
+                            <option value="" disabled>Select a cuisine</option>
+                            {cuisineOptions.map(cuisineOption => (
+                                <option key={cuisineOption.id} value={cuisineOption.id}>
+                                    {cuisineOption.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                )}
                 <div className='input-container'>
                     <label htmlFor="serving_size">Serving Size <span style={{ color: 'red' }}>*</span></label>
                     <input
