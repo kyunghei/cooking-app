@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { getRecipe, updateRecipe } from '../services/api';
+import { getRecipe, updateRecipe, getCuisines } from '../services/api';
 import { useParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function EditRecipe() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const [cuisineOptions, setCuisineOptions] = useState([]);
     const [formData, setFormData] = useState({
         title: '',
         ingredients: '',
@@ -12,6 +14,7 @@ function EditRecipe() {
         prep_time: '',
         cook_time: '',
         serving_size: '',
+        cuisine_id: '',
         image: null,
         imageUrl: ''
     });
@@ -26,6 +29,7 @@ function EditRecipe() {
                 prep_time: data.prep_time,
                 cook_time: data.cook_time,
                 serving_size: data.serving_size,
+                cuisine_id: data.id,
                 image: null,
                 imageUrl: data.image
             });
@@ -33,8 +37,26 @@ function EditRecipe() {
         fetchRecipe();
     }, [id]);
 
+    // Fetch cuisine options from the API when the component mounts
+    useEffect(() => {
+        getCuisines()
+            .then(data => {
+                // Assuming data is an array of cuisine objects e.g.:
+                // [{ id: 1, name: 'American'}, { id: 2, name: 'Chinese'}, ...]
+                setCuisineOptions(data);
+            })
+            .catch(err => {
+                console.error('Error fetching cuisine types:', err);
+                toast.error('Could not load cuisine options');
+            });
+    }, []);
+
+
     function onChange(e) {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        const newValue = name === "cuisine_id" ? Number(value) : value;
+        setFormData({ ...formData, [name]: newValue });
+        console.log(name, newValue);
     }
 
     function onImageChange(e) {
@@ -49,6 +71,7 @@ function EditRecipe() {
         form.append('instruction', formData.instruction);
         form.append('prep_time', formData.prep_time);
         form.append('cook_time', formData.cook_time);
+        form.append('cuisine_id', formData.cuisine_id);
         form.append('serving_size', formData.serving_size);
         if (formData.image) {
             form.append('image', formData.image);
@@ -56,9 +79,12 @@ function EditRecipe() {
 
         try {
             await updateRecipe(id, form);
+            toast.success('Recipe updated successfully!');
+            // Redirect to the My Recipes page after successful update
             navigate('/my-recipes');
         } catch (error) {
             console.error('Error updating recipe:', error);
+            toast.error('Failed to update recipe. Please try again.');
         }
     }
 
@@ -76,7 +102,17 @@ function EditRecipe() {
                         required
                     />
                 </div>
-
+                <div className='input-container'>
+                    <label htmlFor="cuisine">Cuisine <span style={{ color: 'red' }}>*</span></label>
+                    <select name="cuisine_id" value={formData.cuisine_id} onChange={onChange} required>
+                        <option value="" disabled>Select a cuisine</option>
+                        {cuisineOptions.map(cuisineOption => (
+                            <option key={cuisineOption.id} value={cuisineOption.id}>
+                                {cuisineOption.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
                 <div className='input-container'>
                     <label htmlFor="serving_size">Serving Size <span style={{ color: 'red' }}>*</span></label>
                     <input
