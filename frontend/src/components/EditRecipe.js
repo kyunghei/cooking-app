@@ -29,7 +29,7 @@ function EditRecipe() {
                 prep_time: data.prep_time,
                 cook_time: data.cook_time,
                 serving_size: data.serving_size,
-                cuisine_id: data.id,
+                cuisine_id: data.cuisine.id,
                 image: null,
                 imageUrl: data.image
             });
