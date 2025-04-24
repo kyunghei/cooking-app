@@ -506,4 +506,11 @@
     outline: none;
     box-shadow: none;
   }
+
+  .empty-state-text {
+    font-size: 1.2rem;
+    margin-top: 20px;
+    font-family: Arial;
+
+  }
 }

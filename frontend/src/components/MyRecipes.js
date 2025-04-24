@@ -60,24 +60,37 @@ function MyRecipes() {
 
     return (
         <div className='myrecipe-container'>
-            <h2>YOUR DELICIOUS RECIPE CONTRIBUTIONS</h2>
-            <div className="myrecipe-container">
-                {recipes.map((recipe) => (
-                    <div className="card card-custom" key={recipe.id}>
-                        <div className="card-body">
-                            <img src={recipe.image || defaultImage} className="card-img-top" alt={recipe.title}></img>
-                            <div className="card-body">
-                                <h5 className="card-title">{recipe.title}</h5>
-                                <p className="card-text">{recipe.cusine}</p>
-                                <Link to={`/recipes/${recipe.id}`} className="btn btn-sm btn-outline-secondary">View Recipe</Link>
-                                <Link to={`/edit-recipe/${recipe.id}`} className="btn btn-sm btn-outline-secondary">Edit</Link>
-                                <button onClick={() => handleDelete(recipe.id)} className="btn btn-sm btn-outline-secondary">Delete</button>
+            {recipes.length === 0 ? (
+                <div className="empty-state">
+                    <img src={`/static/images/empty-recipe.png`} width="200px" alt="Empty State" className="empty-state-image" />
+                    <p className="empty-state-text">You have not added any recipes yet.</p>
+                    <p className="empty-state-text">Click the button below to add your first recipe!</p>
+                    <Link to="/add-recipe" className="btn btn-sm btn-outline-secondary">Add Recipe</Link>
+                </div>
+            ) : (
+                <>
+                    <h2>YOUR DELICIOUS RECIPE CONTRIBUTIONS</h2>
+                    <div className="myrecipe-container">
+                        {recipes.map((recipe) => (
+                            <div className="card card-custom" key={recipe.id}>
+                                <div className="card-body">
+                                    <img src={recipe.image || defaultImage} className="card-img-top" alt={recipe.title}></img>
+                                    <div className="card-body">
+                                        <h5 className="card-title">{recipe.title}</h5>
+                                        <p className="card-text">{recipe.cusine}</p>
+                                        <Link to={`/recipes/${recipe.id}`} className="btn btn-sm btn-outline-secondary">View Recipe</Link>
+                                        <Link to={`/edit-recipe/${recipe.id}`} className="btn btn-sm btn-outline-secondary">Edit</Link>
+                                        <button onClick={() => handleDelete(recipe.id)} className="btn btn-sm btn-outline-secondary">Delete</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </>
+
+            )}
         </div>
+
     );
 };
 
