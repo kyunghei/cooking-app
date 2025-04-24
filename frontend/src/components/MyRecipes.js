@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getMyRecipes, deleteRecipe, apiClient } from '../services/api';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 
 function MyRecipes() {
@@ -49,6 +50,7 @@ function MyRecipes() {
         try {
             await deleteRecipe(id);
             setRecipes(recipes.filter(recipe => recipe.id !== id));
+            toast.success('Recipe deleted successfully!');
         } catch (error) {
             console.error('Error deleting recipe:', error);
 
