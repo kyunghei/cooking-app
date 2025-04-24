@@ -40,6 +40,12 @@ function MyRecipes() {
     }, []);
 
     async function handleDelete(id) {
+        // Show browser confirmation dialog
+        const ok = window.confirm(
+            'Are you sure you want to permanently delete this recipe?'
+        );
+        if (!ok) return; // user clicked “Cancel”
+
         try {
             await deleteRecipe(id);
             setRecipes(recipes.filter(recipe => recipe.id !== id));
